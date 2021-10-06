@@ -11,6 +11,10 @@ public class Controller {
         this.pirates = pirates;
     }
 
+    public Controller(){
+
+    }
+
     public ArrayList<Pirate> getPirates() {
         return pirates;
     }
