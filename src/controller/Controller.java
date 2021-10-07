@@ -1,12 +1,13 @@
 package controller;
 
+import model.Object;
 import model.Pirate;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Controller {
-    private static final int MINPIRATES = 0;
+    private static final int MINPIRATES = 1;
     private static final int MAXPIRATES = 100;
 
     private ArrayList<Pirate> pirates;
@@ -38,7 +39,6 @@ public class Controller {
             System.out.println("Choose your next action : ");
             System.out.println("1) ajouter une relation;");
             System.out.println("2) ajouter des préférences;");
-            System.out.println("3) fin.");
             choice = getChoiceInt(1, 3);
             switch (choice) {
                 case 1: {
@@ -54,6 +54,12 @@ public class Controller {
 
                     System.out.println(getPirate(firstName).getName() + " dislikes " + getPirate(firstName).getPirateDislike().get(0).getName());
                     break;
+                }
+
+                case 2: {
+                    System.out.println("Please enter the information in the following format : \n A 1 2 3 " +
+                            "\n(Veillez à bien séparer les informations par (au moins un) espace)");
+
                 }
             }
         } while(choice != 3);
@@ -112,6 +118,19 @@ public class Controller {
         }
         return c;
     }
+
+//    public ArrayList<Object> getPiratePreferenceList(char maxPirate, int maxObject) {
+//        Scanner sc = new Scanner(System.in);
+//        if(this.pirates != null){
+//
+//        }
+//        char c = Character.toUpperCase(sc.next().charAt(0));
+//        while (!(c >= 'A' && c <= 'Z')) {
+//            System.out.println("Please input the appropriate character : ( A - " +  max + " )");
+//            c = Character.toUpperCase(sc.next().charAt(0));
+//        }
+//        return c;
+//    }
 
     public ArrayList<Pirate> getPirates() {
         return pirates;
