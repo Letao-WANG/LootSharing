@@ -13,7 +13,7 @@ public class Util {
         int number;
         do {
             System.out.println("Please input the appropriate number : (" + min + " - " + max + ")");
-            while (!sc.hasNext(getRegex(max))) {
+            while (!sc.hasNext(getIntRegex(max))) {
                 String input = sc.next();
                 System.out.printf(input + " is not a appropriate number, please input a new one: " + min + " - " + max +"\n");
             }
@@ -41,7 +41,7 @@ public class Util {
     public static char getChoiceChar(char max) {
         Scanner sc = new Scanner(System.in);
         char c = Character.toUpperCase(sc.next().charAt(0));
-        while (!(c >= 'A' && c <= 'Z')) {
+        while (!(c >= 'A' && c <= max)) {
             System.out.println("Please input the appropriate character : ( A - " + max + " )");
             c = Character.toUpperCase(sc.next().charAt(0));
         }
@@ -59,33 +59,34 @@ public class Util {
         return c;
     }
 
-//    public ArrayList<Object> getPiratePreferenceList(char maxPirate, int maxObject) {
-//        Scanner sc = new Scanner(System.in);
-//        if(this.pirates != null){
-//            String line = sc.nextLine();
-//        }
-//        char c = Character.toUpperCase(sc.next().charAt(0));
-//        while (!(c >= 'A' && c <= 'Z')) {
-//            System.out.println("Please input the appropriate character : ( A - " +  max + " )");
-//            c = Character.toUpperCase(sc.next().charAt(0));
-//        }
-//        return c;
-//    }
-
     /**
      * Get the regular expression based on the max number
      * @param max value should be 1 to 99
      * @return regular expression
      */
-    public static String getRegex(int max){
+    public static String getIntRegex(int max){
         if(0<max &&max<10){
-            return "[0-"+max+"]";
+            return "[1-"+max+"]";
         } else if(max >= 10 && max <100){
             int onesPlace = max%10;
             int tensPlace = max/10;
-            return "[0-9]|[1-"+tensPlace+"]"+"[0-"+onesPlace+"]";
+            return "[1-9]|[1-"+tensPlace+"]"+"[0-"+onesPlace+"]";
         } else {
-            return "[0-9]";
+            return "[1-9]";
         }
+    }
+
+
+
+    public static String getCharRegex(char max){
+        char c = Character.toUpperCase(max);
+        int numberObjects = c - 'A' + 1;
+        String regex = "";
+        regex += "[A-"+c+"]";
+
+        for(int i=0; i<numberObjects; i++){
+            regex += " " + getIntRegex(numberObjects);
+        }
+        return regex;
     }
 }

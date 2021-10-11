@@ -1,8 +1,10 @@
 package controller;
 
+import model.Object;
 import model.Pirate;
 import model.Util;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Controller {
     private static final int MINPIRATES = 1;
@@ -25,12 +27,23 @@ public class Controller {
     }
 
     public void runWithoutGraphic() {
+
+        /*------------------------- Part I ---------------------------------
+        - Config a pirate crew with :  n pirates (designated as A,B,C ...) -
+        - n loots ( designated as a number) TO BE TESTED with 26 pirates   -
+        ------------------------------------------------------------------*/
+
         System.out.println("Welcome to Loot sharing !");
         System.out.print("For the number of pirates, ");
         int numberPirates = Util.getChoiceInt(MINPIRATES, MAXPIRATES);
         System.out.println("Number of pirates saved\n");
         init(numberPirates);
         System.out.println();
+
+        /*--------------------------Part II ----------------------------
+        - Menu with 2 options : Add a relation & Add a preference      -
+        - Check if all the pirates have their preferences              -
+        ------------------------------------------------------------- */
 
         int choice;
         do {
@@ -50,7 +63,7 @@ public class Controller {
 
                     getPirate(firstName).addPirateDislike(getPirate(secondName));
 
-                    System.out.println(getPirate(firstName).getName() + " dislikes " + getPirate(firstName).getPirateDislike().get(0).getName());
+//                    System.out.println(getPirate(firstName).getName() + " dislikes " + getPirate(firstName).getPirateDislike().get(0).getName());
                     break;
                 }
 
@@ -62,7 +75,29 @@ public class Controller {
             }
         } while(choice != 3);
 
+
+        /*------------------------- Part III ----------------------------
+        - III. Find a solution :                                        -
+        - 1. Every pirate have their first preference if not the second -
+        - 2. The lowest possible cost ( Une solution naı̈ve )            -
+        -------------------------------------------------------------- */
+
+        // TO DO ...
+
     }
+
+//    public ArrayList<Object> getPiratePreferenceList(char maxPirate, int maxObject) {
+//        Scanner sc = new Scanner(System.in);
+//        if(this.pirates != null){
+//            String line = sc.nextLine();
+//        }
+//        char c = Character.toUpperCase(sc.next().charAt(0));
+//        while (!(c >= 'A' && c <= 'Z')) {
+//            System.out.println("Please input the appropriate character : ( A - " +  max + " )");
+//            c = Character.toUpperCase(sc.next().charAt(0));
+//        }
+//        return c;
+//    }
 
     public ArrayList<Pirate> getPirates() {
         return pirates;
