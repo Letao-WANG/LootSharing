@@ -36,6 +36,7 @@ public class Controller {
         System.out.println("Welcome to Loot sharing !");
         System.out.print("For the number of pirates, ");
         int numberPirates = Util.getChoiceInt(MINPIRATES, MAXPIRATES);
+        char maxCharAllowed = (char)('A' + numberPirates - 1);
         System.out.println("Number of pirates saved\n");
         init(numberPirates);
         System.out.println();
@@ -51,15 +52,15 @@ public class Controller {
             System.out.println("1) ajouter une relation;");
             System.out.println("2) ajouter des préférences;");
             choice = Util.getChoiceInt(1, 3);
+            System.out.println("choice : " + choice);
             switch (choice) {
                 case 1: {
                     System.out.println("Le pirate _ ne s’aime pas le pirate _ ");
                     System.out.println("Please fill in the characters corresponding to the pirates");
                     System.out.println("The first character is : ");
-                    char maxChar = (char)('A' + numberPirates);
-                    char firstName = Util.getChoiceChar( maxChar );
+                    char firstName = Util.getChoiceChar( maxCharAllowed );
                     System.out.println("The second character is : ");
-                    char secondName = Util.getChoiceChar(maxChar, firstName);
+                    char secondName = Util.getChoiceChar(maxCharAllowed, firstName);
 
                     getPirate(firstName).addPirateDislike(getPirate(secondName));
 
@@ -70,6 +71,8 @@ public class Controller {
                 case 2: {
                     System.out.println("Please enter the information in the following format : \n A 1 2 3 " +
                             "\n(Veillez à bien séparer les informations par (au moins un) espace)");
+                    String inputText = Util.getInputPreference(maxCharAllowed);
+                    System.out.println(inputText);
 
                 }
             }
