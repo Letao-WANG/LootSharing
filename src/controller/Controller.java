@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Controller {
-    private static final int MINPIRATES = 1;
     private static final int MAXPIRATES = 26;
 
     private ArrayList<Pirate> pirates;
@@ -35,7 +34,7 @@ public class Controller {
 
         System.out.println("Welcome to Loot sharing !");
         System.out.print("For the number of pirates, ");
-        int numberPirates = Util.getChoiceInt(MINPIRATES, MAXPIRATES);
+        int numberPirates = Util.getChoiceInt(MAXPIRATES);
         char maxCharAllowed = (char)('A' + numberPirates - 1);
         System.out.println("Number of pirates saved\n");
         init(numberPirates);
@@ -51,7 +50,7 @@ public class Controller {
             System.out.println("Choose your next action : ");
             System.out.println("1) ajouter une relation;");
             System.out.println("2) ajouter des préférences;");
-            choice = Util.getChoiceInt(1, 3);
+            choice = Util.getChoiceInt(3);
             System.out.println("choice : " + choice);
             switch (choice) {
                 case 1: {
@@ -64,7 +63,8 @@ public class Controller {
 
                     getPirate(firstName).addPirateDislike(getPirate(secondName));
 
-//                    System.out.println(getPirate(firstName).getName() + " dislikes " + getPirate(firstName).getPirateDislike().get(0).getName());
+                    System.out.println(getPirate(firstName).getName() + " dislikes ");
+                    getPirate(firstName).printDislike();
                     break;
                 }
 

@@ -27,6 +27,13 @@ public class Pirate {
         }
     }
 
+    public void printDislike(){
+        ArrayList<Pirate> list = getPirateDislike();
+        for(Pirate p : list){
+            System.out.println(p.getName() + " ");
+        }
+    }
+
     public char getName() {
         return name;
     }
@@ -37,6 +44,13 @@ public class Pirate {
 
     public ArrayList<Object> getPreferenceList() {
         return preferenceList;
+    }
+
+    public void printPreferenceList() {
+        ArrayList<Object> list = getPreferenceList();
+        for(Object o : list){
+            System.out.println(o.getNumber() + " ");
+        }
     }
 
     public void setPreferenceList(ArrayList<Object> preferenceList) {
