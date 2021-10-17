@@ -100,10 +100,21 @@ public class Controller {
 
 
         /*------------------------- Part III ----------------------------
+        - Paul
         - III. Find a solution :                                        -
         - 1. Every pirate have their first preference if not the second -
         - 2. The lowest possible cost ( Une solution naı̈ve )            -
         -------------------------------------------------------------- */
+
+        // TO DO ...
+
+
+        /* ------------------------ Part IV --------------------------------
+        - Stan
+        - 1. Exchange the loot : Ask the two pirates and change their loot -
+        - 2. Display the cost : The number of the jealous pirates          -
+        - After each action, display the relation                          -
+        ----------------------------------------------------------------- */
 
         // TO DO ...
 

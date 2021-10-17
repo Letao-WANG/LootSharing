@@ -2,12 +2,20 @@ package model;
 
 import java.util.ArrayList;
 
+/**
+ *  Class Pirate
+ *
+ *  name : name of this pirate
+ *  pirateDislike : list of pirates that this pirate dislike
+ *  preferenceList : list of objects that this pirate prefer
+ *  objectObtained : the object that this pirate has obtained by algo or solution
+ */
 public class Pirate {
     private char name;
     private ArrayList<Pirate> pirateDislike;
     private ArrayList<Object> preferenceList;
     private Object objectObtained = null;
-    
+
     public Pirate( char name ) {
         this.name = name;
         this.pirateDislike = new ArrayList<>();
