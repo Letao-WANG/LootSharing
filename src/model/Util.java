@@ -72,6 +72,22 @@ public class Util {
         return getInput(pattern);
     }
 
+    /**
+     * Calculate the cost of the naive solution for these pirates, i.e. the number of jealous pirates
+     * Calculer le cout de la solution naive pour ces pirates, c'est a dire le nombre de pirate jaloux
+     *
+     * TO BE FINISHED !
+     *
+     * @param pirates
+     * @return
+     */
+    public static int calculateCost(ArrayList<Pirate> pirates){
+        int cost = 0;
+
+
+        return cost;
+    }
+
     /*--------------------------------------------------------
     ------ PART PRIVATE METHODS, we don't use them directly, -
     ------ so we don’t have to pay too much attention --------
@@ -137,21 +153,5 @@ public class Util {
         }
         regex += "$";
         return regex;
-    }
-
-    /**
-     * Calculate the cost of the naive solution for these pirates, i.e. the number of jealous pirates
-     * Calculer le cout de la solution naive pour ces pirates, c'est a dire le nombre de pirate jaloux
-     *
-     * TO BE FINISHED !
-     *
-     * @param pirates
-     * @return
-     */
-    public static int calculateCost(ArrayList<Pirate> pirates){
-        int cost = 0;
-
-
-        return cost;
     }
 }

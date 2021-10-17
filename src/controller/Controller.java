@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Responsible for storing and manipulating Pirates data, the program mainly runs in this Class
+ */
+
 public class Controller {
     private static final int MAXPIRATES = 26;
 
@@ -30,6 +34,7 @@ public class Controller {
     public void runWithoutGraphic() {
 
         /*------------------------- Part I ---------------------------------
+        - Letao                                                            -
         - Config a pirate crew with :  n pirates (designated as A,B,C ...) -
         - n loots ( designated as a number) TO BE TESTED with 26 pirates   -
         ------------------------------------------------------------------*/
@@ -43,6 +48,7 @@ public class Controller {
         System.out.println( numberPirates + " Pirates have been initialized.\n");
 
         /*--------------------------Part II ----------------------------
+        - Letao                                                        -
         - Menu with 2 options : Add a relation & Add a preference      -
         - Check if all the pirates have their preferences              -
         ------------------------------------------------------------- */
@@ -100,7 +106,7 @@ public class Controller {
 
 
         /*------------------------- Part III ----------------------------
-        - Paul
+        - Paul                                                          -
         - III. Find a solution :                                        -
         - 1. Every pirate have their first preference if not the second -
         - 2. The lowest possible cost ( Une solution naı̈ve )            -
@@ -110,7 +116,7 @@ public class Controller {
 
 
         /* ------------------------ Part IV --------------------------------
-        - Stan
+        - Stan                                                             -
         - 1. Exchange the loot : Ask the two pirates and change their loot -
         - 2. Display the cost : The number of the jealous pirates          -
         - After each action, display the relation                          -
