@@ -6,6 +6,7 @@ public class Pirate {
     private char name;
     private ArrayList<Pirate> pirateDislike;
     private ArrayList<Object> preferenceList;
+    private Object objectObtained = null;
     
     public Pirate( char name ) {
         this.name = name;
@@ -63,6 +64,14 @@ public class Pirate {
 
     public void setPreferenceList(ArrayList<Object> preferenceList) {
         this.preferenceList = preferenceList;
+    }
+
+    public Object getObjectObtained() {
+        return objectObtained;
+    }
+
+    public void setObjectObtained(Object objectObtained) {
+        this.objectObtained = objectObtained;
     }
 
     public String toString() {

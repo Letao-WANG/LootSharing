@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -136,5 +137,21 @@ public class Util {
         }
         regex += "$";
         return regex;
+    }
+
+    /**
+     * Calculate the cost of the naive solution for these pirates, i.e. the number of jealous pirates
+     * Calculer le cout de la solution naive pour ces pirates, c'est a dire le nombre de pirate jaloux
+     *
+     * TO BE FINISHED !
+     *
+     * @param pirates
+     * @return
+     */
+    public static int calculateCost(ArrayList<Pirate> pirates){
+        int cost = 0;
+
+
+        return cost;
     }
 }
