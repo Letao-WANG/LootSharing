@@ -110,6 +110,7 @@ public class Util {
 
         while (!match) {
             System.out.printf(inputText + " is not appropriate, please input a new one:\n");
+            System.out.println("Pattern : " + pattern);
             inputText = sc.nextLine();
             match = pattern.matcher(inputText).find();
         }

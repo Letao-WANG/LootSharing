@@ -22,6 +22,13 @@ public class Pirate {
     }
 
     public void addPirateDislike(Pirate autre){
+        if(pirateDislike != null && autre != null && (!pirateDislike.contains(autre))){
+            pirateDislike.add(autre);
+            autre.addOtherPirateDislike(this);
+        }
+    }
+
+    private void addOtherPirateDislike(Pirate autre){
         if(pirateDislike != null && autre != null){
             pirateDislike.add(autre);
         }
@@ -30,8 +37,9 @@ public class Pirate {
     public void printDislike(){
         ArrayList<Pirate> list = getPirateDislike();
         for(Pirate p : list){
-            System.out.println(p.getName() + " ");
+            System.out.print(p.getName() + " ");
         }
+        System.out.println();
     }
 
     public char getName() {
@@ -58,6 +66,18 @@ public class Pirate {
     }
 
     public String toString() {
-        return "Pirate " + getName() + ". ";
+        String res = "Pirate " + getName() + ": ";
+        for(Object o : preferenceList){
+            res += o.getNumber() + ", ";
+        }
+        res += "\n";
+        if(pirateDislike.size() != 0){
+            res += "Pirate " + getName() + " dislike ";
+            for(Pirate p : pirateDislike){
+                res += p.getName() + ", ";
+            }
+        }
+        return res;
+
     }
 }

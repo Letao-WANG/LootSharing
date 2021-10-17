@@ -3,7 +3,9 @@ package controller;
 import model.Object;
 import model.Pirate;
 import model.Util;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Controller {
@@ -20,8 +22,8 @@ public class Controller {
             char name = (char) ('A' + i);
             pirates.add(new Pirate(name));
         }
-        for( Pirate p : pirates){
-            System.out.println(p);
+        for (Pirate p : pirates) {
+            System.out.println("Pirate " + p.getName());
         }
     }
 
@@ -33,12 +35,12 @@ public class Controller {
         ------------------------------------------------------------------*/
 
         System.out.println("Welcome to Loot sharing !");
-        System.out.print("For the number of pirates, ");
+        System.out.print("Please enter the number of pirates: ");
         int numberPirates = Util.getChoiceInt(MAXPIRATES);
-        char maxCharAllowed = (char)('A' + numberPirates - 1);
-        System.out.println("Number of pirates saved\n");
-        init(numberPirates);
+        char maxCharAllowed = (char) ('A' + numberPirates - 1);
         System.out.println();
+        init(numberPirates);
+        System.out.println( numberPirates + " Pirates have been initialized.\n");
 
         /*--------------------------Part II ----------------------------
         - Menu with 2 options : Add a relation & Add a preference      -
@@ -47,36 +49,54 @@ public class Controller {
 
         int choice;
         do {
-            System.out.println("Choose your next action : ");
+            System.out.println("Choose your next action: ");
             System.out.println("1) ajouter une relation;");
             System.out.println("2) ajouter des préférences;");
+            System.out.println("3) fin");
             choice = Util.getChoiceInt(3);
-            System.out.println("choice : " + choice);
+            // choice can only be 1, 2, or 3, so we needn't case 3 or default in switch structure
             switch (choice) {
                 case 1: {
                     System.out.println("Le pirate _ ne s’aime pas le pirate _ ");
                     System.out.println("Please fill in the characters corresponding to the pirates");
                     System.out.println("The first character is : ");
-                    char firstName = Util.getChoiceChar( maxCharAllowed );
+                    char firstName = Util.getChoiceChar(maxCharAllowed);
                     System.out.println("The second character is : ");
                     char secondName = Util.getChoiceChar(maxCharAllowed, firstName);
 
                     getPirate(firstName).addPirateDislike(getPirate(secondName));
 
-                    System.out.println(getPirate(firstName).getName() + " dislikes ");
+                    System.out.print(getPirate(firstName).getName() + " dislikes ");
                     getPirate(firstName).printDislike();
                     break;
                 }
 
                 case 2: {
-                    System.out.println("Please enter the information in the following format : \n A 1 2 3 " +
-                            "\n(Veillez à bien séparer les informations par (au moins un) espace)");
+                    System.out.print("Please enter the information in the following format : \nA ");
+                    for (int i = 1; i <= numberPirates; i++) {
+                        System.out.print(i + " ");
+                    }
+                    System.out.println("\n(Veillez à bien séparer les informations par (au moins un) espace)");
                     String inputText = Util.getInputPreference(maxCharAllowed);
-                    System.out.println(inputText);
-
+                    Pirate pirateChosen = getPirate(Character.toUpperCase(inputText.charAt(0)));
+                    ArrayList<Object> listPreferences = new ArrayList<>();
+                    for (int i = 1; i <= numberPirates; i++) {
+                        // '2' -> 2
+                        int numberObject = Integer.parseInt(String.valueOf(Character.toUpperCase(inputText.charAt(i*2))));
+                        listPreferences.add(new Object(numberObject));
+                    }
+                    // here we set the new list preferences
+                    pirateChosen.setPreferenceList(listPreferences);
+                    System.out.println(pirateChosen);
                 }
             }
-        } while(choice != 3);
+        } while (choice != 3);
+
+        for(Pirate p : pirates){
+            System.out.println(p + "\n");
+        }
+
+        System.out.println("Pirate preferences and relations have saved.");
 
 
         /*------------------------- Part III ----------------------------
@@ -89,19 +109,6 @@ public class Controller {
 
     }
 
-//    public ArrayList<Object> getPiratePreferenceList(char maxPirate, int maxObject) {
-//        Scanner sc = new Scanner(System.in);
-//        if(this.pirates != null){
-//            String line = sc.nextLine();
-//        }
-//        char c = Character.toUpperCase(sc.next().charAt(0));
-//        while (!(c >= 'A' && c <= 'Z')) {
-//            System.out.println("Please input the appropriate character : ( A - " +  max + " )");
-//            c = Character.toUpperCase(sc.next().charAt(0));
-//        }
-//        return c;
-//    }
-
     public ArrayList<Pirate> getPirates() {
         return pirates;
     }
@@ -110,9 +117,9 @@ public class Controller {
         this.pirates = pirates;
     }
 
-    public Pirate getPirate(char name){
-        for(Pirate p : pirates){
-            if(p.getName() == name){
+    public Pirate getPirate(char name) {
+        for (Pirate p : pirates) {
+            if (p.getName() == name) {
                 return p;
             }
         }

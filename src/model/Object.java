@@ -28,4 +28,8 @@ public class Object {
     public void setToken(boolean token) {
         this.token = token;
     }
+
+    public String toString() {
+        return String.valueOf(number);
+    }
 }
