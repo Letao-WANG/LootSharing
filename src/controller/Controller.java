@@ -118,6 +118,7 @@ public class Controller {
         System.out.println("Pirate preferences and relations have saved.");
 
 
+
         /*------------------------- Part III ----------------------------
         - Paul                                                          -
         - III. Find a solution :                                        -
@@ -153,7 +154,51 @@ public class Controller {
         - After each action, display the relation                          -
         ----------------------------------------------------------------- */
 
-        // TO DO ...
+        /* Stan
+        Exchange the loot : Ask the two pirates and change their loot
+         */
+
+        int option;
+        do {
+            System.out.println("Choose your next action: ");
+            System.out.println("1) echanger 2 loots;");
+            System.out.println("2) fin");
+            option = Util.getChoiceInt(2);
+            switch(option){
+                case 1: {
+                    System.out.println("Please fill in the characters corresponding to the pirates");
+                    System.out.println("The first character is : ");
+
+                    char firstName = Util.getChoiceChar(maxCharAllowed);
+                    String inputText = Util.getInputPreference(maxCharAllowed);
+                    Pirate pirateChosen1 = getPirate(Character.toUpperCase(inputText.charAt(0)));
+                    System.out.println("The second character is : ");
+
+                    char secondName = Util.getChoiceChar(maxCharAllowed, firstName);
+                    String inputText2 = Util.getInputPreference(maxCharAllowed);
+                    Pirate pirateChosen2 = getPirate(Character.toUpperCase(inputText2.charAt(0)));
+
+                    System.out.println("First loot : ");
+                    String inputText3 = Util.getInputPreference(maxCharAllowed);
+                    ArrayList<Loot> L1 = pirateChosen1.getPreferenceList();
+                    int loot1 = L1.indexOf(inputText3);
+                    System.out.println("Second loot : ");
+                    String inputText4 = Util.getInputPreference(maxCharAllowed);
+                    ArrayList<Loot> L2 = pirateChosen2.getPreferenceList();
+                    int loot2 = L2.indexOf(inputText4);
+
+                    L1.set(inputText3, loot2);
+                    L2.indexOf(3) = loot1;
+
+
+
+                }
+            }
+            for(Pirate p : pirates){
+                System.out.println(p + "\n");
+            }
+        } while (option != 2);
+
 
     }
 
