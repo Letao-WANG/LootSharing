@@ -178,19 +178,11 @@ public class Controller {
                     String inputText2 = Util.getInputPreference(maxCharAllowed);
                     Pirate pirateChosen2 = getPirate(Character.toUpperCase(inputText2.charAt(0)));
 
-                    System.out.println("First loot : ");
-                    String inputText3 = Util.getInputPreference(maxCharAllowed);
-                    ArrayList<Loot> L1 = pirateChosen1.getPreferenceList();
-                    int loot1 = L1.indexOf(inputText3);
-                    System.out.println("Second loot : ");
-                    String inputText4 = Util.getInputPreference(maxCharAllowed);
-                    ArrayList<Loot> L2 = pirateChosen2.getPreferenceList();
-                    int loot2 = L2.indexOf(inputText4);
+                    Loot l1 = pirateChosen1.getObjectObtained();
+                    Loot l2 = pirateChosen2.getObjectObtained();
 
-                    L1.set(inputText3, loot2);
-                    L2.indexOf(3) = loot1;
-
-
+                    pirateChosen1.setObjectObtained(l2);
+                    pirateChosen2.setObjectObtained(l1);
 
                 }
             }
