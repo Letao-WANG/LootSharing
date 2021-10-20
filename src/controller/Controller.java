@@ -168,26 +168,21 @@ public class Controller {
                 case 1: {
                     System.out.println("Please fill in the characters corresponding to the pirates");
                     System.out.println("The first character is : ");
-
                     char firstName = Util.getChoiceChar(maxCharAllowed);
-                    String inputText = Util.getInputPreference(maxCharAllowed);
-                    Pirate pirateChosen1 = getPirate(Character.toUpperCase(inputText.charAt(0)));
                     System.out.println("The second character is : ");
-
                     char secondName = Util.getChoiceChar(maxCharAllowed, firstName);
-                    String inputText2 = Util.getInputPreference(maxCharAllowed);
-                    Pirate pirateChosen2 = getPirate(Character.toUpperCase(inputText2.charAt(0)));
 
-                    Loot l1 = pirateChosen1.getObjectObtained();
-                    Loot l2 = pirateChosen2.getObjectObtained();
+                    Loot l1 = getPirate(firstName).getObjectObtained();
+                    Loot l2 = getPirate(secondName).getObjectObtained();
 
-                    pirateChosen1.setObjectObtained(l2);
-                    pirateChosen2.setObjectObtained(l1);
+                    getPirate(firstName).setObjectObtained(l2);
+                    getPirate(secondName).setObjectObtained(l1);
 
+                    break;
                 }
             }
             for(Pirate p : pirates){
-                System.out.println(p + "\n");
+                System.out.println("The pirate "+p.getName()+" has the loot : "+p.getObjectObtained()+"\n");
             }
         } while (option != 2);
 
