@@ -200,9 +200,6 @@ public class Controller {
         this.pirates = pirates;
     }
 
-    public ArrayList<Pirate> checkJealousPirate( ArrayList<Pirate> pirates) {
-
-    }
 
     public Pirate getPirate(char name) {
         for (Pirate p : pirates) {
