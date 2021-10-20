@@ -126,8 +126,11 @@ public class Controller {
         - 2. The lowest possible cost ( Une solution naı̈ve )            -
         -------------------------------------------------------------- */
         int numberloot;
+        // Give the loot according to the first pirate, the first loot ( solution naive)
         for(Pirate p : pirates) {
             int i = 0;
+
+            // Check if the pirate have the loot
             while(p.getObjectObtained() == null){
                 numberloot = p.getPreferenceList().get(i).getNumber();
 
@@ -139,7 +142,7 @@ public class Controller {
                 i++;
             }
         }
-
+        // Displays what the pirates has as loot
         for(Pirate p : pirates){
             System.out.println("The pirate "+p.getName()+" has the loot : "+p.getObjectObtained()+"\n");
         }
@@ -195,6 +198,10 @@ public class Controller {
 
     public void setPirates(ArrayList<Pirate> pirates) {
         this.pirates = pirates;
+    }
+
+    public ArrayList<Pirate> checkJealousPirate( ArrayList<Pirate> pirates) {
+
     }
 
     public Pirate getPirate(char name) {
