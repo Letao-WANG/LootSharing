@@ -43,6 +43,16 @@ public class Controller {
         init(numberPirates);
         System.out.println( numberPirates + " Pirates have been initialized.\n");
 
+
+
+        // Initialisation of the loot list
+        ArrayList<Loot> listOfLoot = new ArrayList<Loot>();
+        for(int i = 1; i<numberPirates +1;i++) {
+            Loot l = new Loot(i);
+            listOfLoot.add(l);
+        }
+        System.out.println( numberPirates + " Loots have been initialized ");
+
         /*--------------------------Part II ----------------------------
         - Letao                                                        -
         - Menu with 2 options : Add a relation & Add a preference      -
@@ -107,6 +117,24 @@ public class Controller {
         - 1. Every pirate have their first preference if not the second -
         - 2. The lowest possible cost ( Une solution naı̈ve )            -
         -------------------------------------------------------------- */
+        int numberloot;
+        for(Pirate p : pirates) {
+            int i = 0;
+            while(p.getObjectObtained() == null){
+                numberloot = p.getPreferenceList().get(i).getNumber();
+
+                // If loot "numberloot" is available then we give it to this pirate
+                if(!listOfLoot.get(numberloot-1).isToken()) {
+                    p.setObjectObtained(listOfLoot.get(numberloot-1));
+                    listOfLoot.get(numberloot-1).setToken(true);
+                }
+                i++;
+            }
+        }
+
+        for(Pirate p : pirates){
+            System.out.println("The pirate "+p.getName()+" has the loot : "+p.getObjectObtained()+"\n");
+        }
 
         // TO DO ...
 

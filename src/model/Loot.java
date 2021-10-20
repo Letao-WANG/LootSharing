@@ -7,7 +7,7 @@ package model;
  */
 public class Loot {
     private int number;
-    private boolean token;
+    private boolean token = false ;
 
     public Loot(int number) {
         this.number = number;
