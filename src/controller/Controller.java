@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class Controller {
     private static final int MAXPIRATES = 26;
     private ArrayList<Pirate> pirates;
-
+    // Test
     public Controller() {
     }
 
