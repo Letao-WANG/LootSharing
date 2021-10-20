@@ -53,6 +53,13 @@ public class Controller {
         }
         System.out.println( numberPirates + " Loots have been initialized ");
 
+        //Default preference list for the pirates
+
+        for(Pirate p : pirates){
+            p.setPreferenceList(listOfLoot);
+        }
+
+
         /*--------------------------Part II ----------------------------
         - Letao                                                        -
         - Menu with 2 options : Add a relation & Add a preference      -
