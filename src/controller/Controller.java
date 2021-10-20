@@ -166,21 +166,23 @@ public class Controller {
             option = Util.getChoiceInt(2);
             switch(option){
                 case 1: {
+                    //Names of both pirates for the exchange
                     System.out.println("Please fill in the characters corresponding to the pirates");
                     System.out.println("The first character is : ");
                     char firstName = Util.getChoiceChar(maxCharAllowed);
                     System.out.println("The second character is : ");
                     char secondName = Util.getChoiceChar(maxCharAllowed, firstName);
-
+                    //Getting loots
                     Loot l1 = getPirate(firstName).getObjectObtained();
                     Loot l2 = getPirate(secondName).getObjectObtained();
-
+                    //Exchanging loots
                     getPirate(firstName).setObjectObtained(l2);
                     getPirate(secondName).setObjectObtained(l1);
 
                     break;
                 }
             }
+            //Display each pirate with his loot
             for(Pirate p : pirates){
                 System.out.println("The pirate "+p.getName()+" has the loot : "+p.getObjectObtained()+"\n");
             }
