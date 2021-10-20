@@ -5,11 +5,11 @@ package model;
  *
  * Items allocated by pirates
  */
-public class Object {
+public class Loot {
     private int number;
     private boolean token;
 
-    public Object(int number) {
+    public Loot(int number) {
         this.number = number;
     }
 

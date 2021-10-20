@@ -1,12 +1,10 @@
 package controller;
 
-import model.Object;
+import model.Loot;
 import model.Pirate;
 import model.Util;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 /**
  * Responsible for storing and manipulating Pirates data, the program mainly runs in this Class
@@ -15,7 +13,6 @@ import java.util.Scanner;
 public class Controller {
     private static final int MAXPIRATES = 26;
     private ArrayList<Pirate> pirates;
-    // NO
     public Controller() {
     }
 
@@ -84,11 +81,11 @@ public class Controller {
                     System.out.println("\n(Veillez à bien séparer les informations par (au moins un) espace)");
                     String inputText = Util.getInputPreference(maxCharAllowed);
                     Pirate pirateChosen = getPirate(Character.toUpperCase(inputText.charAt(0)));
-                    ArrayList<Object> listPreferences = new ArrayList<>();
+                    ArrayList<Loot> listPreferences = new ArrayList<>();
                     for (int i = 1; i <= numberPirates; i++) {
                         // '2' -> 2
                         int numberObject = Integer.parseInt(String.valueOf(Character.toUpperCase(inputText.charAt(i*2))));
-                        listPreferences.add(new Object(numberObject));
+                        listPreferences.add(new Loot(numberObject));
                     }
                     // here we set the new list preferences
                     pirateChosen.setPreferenceList(listPreferences);

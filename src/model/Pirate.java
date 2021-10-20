@@ -13,8 +13,8 @@ import java.util.ArrayList;
 public class Pirate {
     private char name;
     private ArrayList<Pirate> pirateDislike;
-    private ArrayList<Object> preferenceList;
-    private Object objectObtained = null;
+    private ArrayList<Loot> preferenceList;
+    private Loot lootObtained = null;
 
     public Pirate( char name ) {
         this.name = name;
@@ -59,32 +59,32 @@ public class Pirate {
         this.name = name;
     }
 
-    public ArrayList<Object> getPreferenceList() {
+    public ArrayList<Loot> getPreferenceList() {
         return preferenceList;
     }
 
     public void printPreferenceList() {
-        ArrayList<Object> list = getPreferenceList();
-        for(Object o : list){
+        ArrayList<Loot> list = getPreferenceList();
+        for(Loot o : list){
             System.out.println(o.getNumber() + " ");
         }
     }
 
-    public void setPreferenceList(ArrayList<Object> preferenceList) {
+    public void setPreferenceList(ArrayList<Loot> preferenceList) {
         this.preferenceList = preferenceList;
     }
 
-    public Object getObjectObtained() {
-        return objectObtained;
+    public Loot getObjectObtained() {
+        return lootObtained;
     }
 
-    public void setObjectObtained(Object objectObtained) {
-        this.objectObtained = objectObtained;
+    public void setObjectObtained(Loot lootObtained) {
+        this.lootObtained = lootObtained;
     }
 
     public String toString() {
         String res = "Pirate " + getName() + ": ";
-        for(Object o : preferenceList){
+        for(Loot o : preferenceList){
             res += o.getNumber() + ", ";
         }
         res += "\n";
