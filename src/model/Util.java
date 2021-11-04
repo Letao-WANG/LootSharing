@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,7 +16,7 @@ public class Util {
      * Used to get the number entered by the user with verifying
      *
      * @param maxIntAllowed Maximum number allowed
-     * @return
+     * @return The number in Integer
      */
     public static int getChoiceInt(int maxIntAllowed) {
         Pattern pattern = Pattern.compile(getIntRegex(maxIntAllowed, true), Pattern.CASE_INSENSITIVE);
@@ -37,8 +38,8 @@ public class Util {
     /**
      * Used to get the character entered by the user with verifying
      *
-     * @param maxCharAllowed
-     * @return
+     * @param maxCharAllowed The limit of the character ( A - maxCharAllowed )
+     * @return The character typed by the user
      */
     public static char getChoiceChar(char maxCharAllowed) {
         Scanner sc = new Scanner(System.in);
@@ -76,16 +77,32 @@ public class Util {
      * Calculate the cost of the naive solution for these pirates, i.e. the number of jealous pirates
      * Calculer le cout de la solution naive pour ces pirates, c'est a dire le nombre de pirate jaloux
      *
-     * TO BE FINISHED !
      *
-     * @param pirates
-     * @return
+     *
+     * @param pirates List of the pirates that the user has determined in the terminal
+     * @return The number of the jealous pirates
      */
     public static int calculateCost(ArrayList<Pirate> pirates){
-        int cost = 0;
+        int nbJealous = 0;
+        HashMap<Character, Integer> compteurs = new HashMap<>();
+        for (Pirate p : pirates) {
+            int i = 0;
+            for(int k = 0; k<p.getPreferenceList().size(); k++){
+                if((p.getObjectObtained().getNumber() == (p.getPreferenceList().get(k).getNumber()))){
+                    compteurs.put(p.getName(), k);
+                }
+            }
+        }
+        for (Pirate p : pirates) {
+            for (int i = 0; i < p.getPirateDislike().size(); i++) {
+                if (compteurs.get(p.getPirateDislike().get(i).getName()) != ((compteurs.get(p.getName())))) {
+                    nbJealous++;
+                }
+            }
+        }
 
 
-        return cost;
+        return nbJealous/2;
     }
 
     /*--------------------------------------------------------
@@ -117,7 +134,7 @@ public class Util {
      * Input method general, used in other methods input
      * @see Util#getInputPreference(char) 
      * @param pattern
-     * @return
+     * @return the value that the user typed
      */
     private static String getInput(Pattern pattern) {
         Scanner sc = new Scanner(System.in);

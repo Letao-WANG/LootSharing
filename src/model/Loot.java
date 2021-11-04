@@ -6,29 +6,53 @@ package model;
  * Items allocated by pirates
  */
 public class Loot {
-    private int number;
-    private boolean token = false ;
+    private int number; // Number of the loot
+    private boolean token = false ; // If the loot is taken by a pirate or not
 
+    /**
+     * Constructor that creates an object of the class Loot
+     * @param number Number of the loot
+     */
     public Loot(int number) {
         this.number = number;
     }
 
+    /**
+     * Method that returns the number of the loot
+     * @return the value of the variable number
+     */
     public int getNumber() {
         return number;
     }
 
+    /**
+     * Method that sets the new number of the loot
+     * @param number the new number of the loot
+     */
     public void setNumber(int number) {
         this.number = number;
     }
 
+    /**
+     * Method that determines whether the loot is taken
+     * @return true if the loot is taken else false
+     */
     public boolean isToken() {
         return token;
     }
 
+    /**
+     * Method that sets the value of the variable token
+     * @param token true if the token is taken else false
+     */
     public void setToken(boolean token) {
         this.token = token;
     }
 
+    /**
+     * Method that displays the number of the loot in String
+     * @return The value of the variable number in String
+     */
     public String toString() {
         return String.valueOf(number);
     }

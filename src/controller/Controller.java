@@ -29,6 +29,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Execute the program of the project in the terminal
+     */
     public void runWithoutGraphic() {
 
         /*------------------------- Part I ---------------------------------
@@ -69,14 +72,15 @@ public class Controller {
 
         int choice;
         do {
+            // Menu
             System.out.println("Choose your next action: ");
             System.out.println("1) ajouter une relation;");
             System.out.println("2) ajouter des préférences;");
             System.out.println("3) fin");
             choice = Util.getChoiceInt(3);
-            // choice can only be 1, 2, or 3, so we needn't case 3 or default in switch structure
             switch (choice) {
                 case 1: {
+                    // Asks the user which pirates hate each other
                     System.out.println("Le pirate _ ne s’aime pas le pirate _ ");
                     System.out.println("Please fill in the characters corresponding to the pirates");
                     System.out.println("The first character is : ");
@@ -84,6 +88,7 @@ public class Controller {
                     System.out.println("The second character is : ");
                     char secondName = Util.getChoiceChar(maxCharAllowed, firstName);
 
+                    // Puts the pirate A in the pirate B's enemies list ( same for the A )
                     getPirate(firstName).addPirateDislike(getPirate(secondName));
 
                     System.out.print(getPirate(firstName).getName() + " dislikes ");
@@ -92,6 +97,7 @@ public class Controller {
                 }
 
                 case 2: {
+                    // Displays the format that user has to type, if it's not the case we ask the user to type again with the good format
                     System.out.print("Please enter the information in the following format : \nA ");
                     for (int i = 1; i <= numberPirates; i++) {
                         System.out.print(i + " ");
@@ -112,6 +118,7 @@ public class Controller {
             }
         } while (choice != 3);
 
+        //
         for (Pirate p : pirates) {
             System.out.println(p + "\n");
         }
@@ -127,7 +134,8 @@ public class Controller {
         - 2. The lowest possible cost ( Une solution naı̈ve )            -
         -------------------------------------------------------------- */
         int numberloot;
-        // Give the loot according to the first pirate, the first loot ( solution naive)
+        // Give the loot according to the first pirate, the first loot (solution naive)
+        System.out.println("Solution Naïve --------------------------->");
         for (Pirate p : pirates) {
             int i = 0;
 
@@ -148,7 +156,6 @@ public class Controller {
             System.out.println("The pirate " + p.getName() + " has the loot : " + p.getObjectObtained() + "\n");
         }
 
-        // TO DO ...
 
 
         /* ------------------------ Part IV --------------------------------
@@ -164,18 +171,22 @@ public class Controller {
 
         int option;
         do {
+            // Menu
             System.out.println("Choose your next action: ");
             System.out.println("1) echanger 2 loots;");
-            System.out.println("2) fin");
-            option = Util.getChoiceInt(2);
+            System.out.println("2) Afficher le coût");
+            System.out.println("3) fin");
+            option = Util.getChoiceInt(3);
             switch (option) {
                 case 1: {
+                    // Ask the user which pirates exchange their loot
                     System.out.println("Please fill in the characters corresponding to the pirates");
                     System.out.println("The first character is : ");
                     char firstName = Util.getChoiceChar(maxCharAllowed);
                     System.out.println("The second character is : ");
                     char secondName = Util.getChoiceChar(maxCharAllowed, firstName);
 
+                    // Exchange the loot
                     Loot l1 = getPirate(firstName).getObjectObtained();
                     Loot l2 = getPirate(secondName).getObjectObtained();
 
@@ -184,38 +195,30 @@ public class Controller {
 
                     break;
                 }
+
+                case 2: {/* Stan
+                          Number of jealous pirates
+                          */
+                    // Displays the number of jealous pirates
+                    System.out.println("The number of jealous pirates is : " + Util.calculateCost(pirates));
+
+                    break;
+                }
             }
+            // Displays the loot that every pirate has
             for (Pirate p : pirates) {
                 System.out.println("The pirate " + p.getName() + " has the loot : " + p.getObjectObtained() + "\n");
             }
-        } while (option != 2);
+        } while (option != 3);
+        System.out.println("END");
 
 
-
-        /* Stan
-        Number of jealous pirates
-         */
-
-        int nbJealous = 0;
-        HashMap<Character, Integer> compteurs = new HashMap<>();
-        for (Pirate p : pirates) {
-            int i = 0;
-            for(int k = 0; k<p.getPreferenceList().size(); k++){
-                if((p.getObjectObtained().getNumber() == (p.getPreferenceList().get(k).getNumber()))){
-                    compteurs.put(p.getName(), k);
-                }
-            }
-        }
-        for (Pirate p : pirates) {
-            for (int i = 0; i < p.getPirateDislike().size(); i++) {
-                if (compteurs.get(p.getPirateDislike().get(i).getName()) != ((compteurs.get(p.getName())))) {
-                    nbJealous++;
-                }
-            }
-        }
-        System.out.println("The number of jealous pirates is : " + nbJealous/2);
     }
 
+    /**
+     * Return the pirate
+     * @return
+     */
     public ArrayList<Pirate> getPirates() {
         return pirates;
     }

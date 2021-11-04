@@ -11,13 +11,13 @@ import java.util.ArrayList;
  *  objectObtained : the object that this pirate has obtained by algo or solution
  */
 public class Pirate {
-    private char name;
-    private ArrayList<Pirate> pirateDislike;
-    private ArrayList<Loot> preferenceList;
-    private Loot lootObtained = null;
+    private char name; // Name of the pirate
+    private ArrayList<Pirate> pirateDislike; // List of the pirate's enemies
+    private ArrayList<Loot> preferenceList; // Pirate preferences list
+    private Loot lootObtained = null; // Loot given to the pirate
 
     /**
-     * Create an object of the class Pirate
+     * Constructor that creates an object of the class Pirate
      * @param name : Name of the pirate ( A-Z )
      */
     public Pirate( char name ) {
@@ -27,24 +27,24 @@ public class Pirate {
     }
 
     /**
-     * Return the list of the pirate's ennemies
-     * @return pirateDislike
+     * Method that returns the list of the pirate's enemies
+     * @return the pirate's enemies list
      */
     public ArrayList<Pirate> getPirateDislike() {
         return pirateDislike;
     }
 
     /**
-     * Set the list of the pirates that the pirate dislikes
-     * @param pirateDislike : List of the pirates
+     * Method that sets the list of the pirates that the pirate dislikes
+     * @param pirateDislike : the pirate's enemies list
      */
     public void setPirateDislike(ArrayList<Pirate> pirateDislike) {
         this.pirateDislike = pirateDislike;
     }
 
     /**
-     * Add a pirate in the "pirateDislike"'s list
-     * @param autre : A pirate
+     * Method that adds a pirate in the "pirateDislike"'s list
+     * @param autre : A pirate that the pirate hates
      */
     public void addPirateDislike(Pirate autre){
         if(pirateDislike != null && autre != null && (!pirateDislike.contains(autre))){
@@ -60,7 +60,7 @@ public class Pirate {
     }
 
     /**
-     * Displays the list of the pirate's ennemies
+     * Method that displays the list of the pirate's enemies
      */
     public void printDislike(){
         ArrayList<Pirate> list = getPirateDislike();
@@ -71,23 +71,23 @@ public class Pirate {
     }
 
     /**
-     * Return the name of the pirate
-     * @return name
+     * Method that returns the name of the pirate
+     * @return the value of the variable name
      */
     public char getName() {
         return name;
     }
 
     /**
-     * Set the name of the pirate
-     * @param name : Name of the pirate
+     * Method that sets the name of the pirate
+     * @param name : New name of the pirate
      */
     public void setName(char name) {
         this.name = name;
     }
 
     /**
-     * Return the preference's list of the pirate
+     * Method that returns the preference's list of the pirate
      * @return The preference's list
      */
     public ArrayList<Loot> getPreferenceList() {
@@ -95,7 +95,7 @@ public class Pirate {
     }
 
     /**
-     * Displays the preference's list of the pirate
+     * Method that displays the preference's list of the pirate
      */
     public void printPreferenceList() {
         ArrayList<Loot> list = getPreferenceList();
@@ -105,7 +105,7 @@ public class Pirate {
     }
 
     /**
-     * Set the preference's list of the pirate
+     * Method that sets the preference's list of the pirate
      * @param preferenceList List of the preference loot sorted from best to worst
      */
     public void setPreferenceList(ArrayList<Loot> preferenceList) {
@@ -113,7 +113,7 @@ public class Pirate {
     }
 
     /**
-     * Return the loot that the pirate got
+     * Method that returns the loot that the pirate got
      * @return The number of the loot that the pirate got
      */
     public Loot getObjectObtained() {
@@ -121,7 +121,7 @@ public class Pirate {
     }
 
     /**
-     * Set the loot for the pirate
+     * Method that sets the loot for the pirate
      * @param lootObtained : The loot given to the pirate
      */
     public void setObjectObtained(Loot lootObtained) {
@@ -129,7 +129,7 @@ public class Pirate {
     }
 
     /**
-     * Displays the preference's list and the Dislike's list of the pirate
+     * Method that displays the preference's list and the Dislike's list of the pirate
      * @return String of the preference's list and the Dislike's list of the pirate
      */
     public String toString() {
