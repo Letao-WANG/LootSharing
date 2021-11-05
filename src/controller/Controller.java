@@ -215,19 +215,6 @@ public class Controller {
 
     }
 
-    /**
-     * Return the pirate
-     * @return
-     */
-    public ArrayList<Pirate> getPirates() {
-        return pirates;
-    }
-
-    public void setPirates(ArrayList<Pirate> pirates) {
-        this.pirates = pirates;
-    }
-
-
     public Pirate getPirate(char name) {
         for (Pirate p : pirates) {
             if (p.getName() == name) {

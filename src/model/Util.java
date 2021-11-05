@@ -6,6 +6,9 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Class Util, mainly providing the various methods needed for user interaction (input and output)
+ */
 public class Util {
 
     /*--------------------------------------------------------------------------
@@ -131,9 +134,10 @@ public class Util {
     }
 
     /**
-     * Input method general, used in other methods input
+     * Input method general, used in other methods input based on pattern
      * @see Util#getInputPreference(char) 
-     * @param pattern
+     * @see Util#getPreferenceRegex(char)
+     * @param pattern regular expression pattern, based for verifying the input of user
      * @return the value that the user typed
      */
     private static String getInput(Pattern pattern) {
