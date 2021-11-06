@@ -214,12 +214,16 @@ public class Controller {
 
     }
 
+
     public Pirate getPirate(char name) {
         for (Pirate p : pirates) {
             if (p.getName() == name) {
                 return p;
             }
         }
-        return null;
+        // Because of the regular expression restriction input
+        // this will theoretically never execute
+        System.out.println("Pirate not found!");
+        return new Pirate();
     }
 }

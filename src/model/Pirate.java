@@ -16,6 +16,8 @@ public class Pirate {
     private ArrayList<Loot> preferenceList; // Pirate preferences list
     private Loot lootObtained = null; // Loot given to the pirate
 
+    public Pirate(){ }
+
     /**
      * Constructor that creates an object of the class Pirate
      * @param name : Name of the pirate ( A-Z )
