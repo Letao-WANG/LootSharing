@@ -13,20 +13,12 @@ import java.util.ArrayList;
 public class Controller {
     private static final int MAXPIRATES = 26;
     private ArrayList<Pirate> pirates;
+    private ArrayList<Loot> listOfLoot;
 
-    public Controller() {
-    }
+    private int numberPirates;
+    private char maxCharAllowed;
 
-    private void init(int numPirates) {
-        pirates = new ArrayList<>();
-        for (int i = 0; i < numPirates; i++) {
-            char name = (char) ('A' + i);
-            pirates.add(new Pirate(name));
-        }
-        for (Pirate p : pirates) {
-            System.out.println("Pirate " + p.getName());
-        }
-    }
+    public Controller() { }
 
     /**
      * Execute the program of the project in the terminal
@@ -38,18 +30,56 @@ public class Controller {
         - Config a pirate crew with :  n pirates (designated as A,B,C ...) -
         - n loots ( designated as a number) TO BE TESTED with 26 pirates   -
         ------------------------------------------------------------------*/
+        initialization();
 
+        /*--------------------------Part II ----------------------------
+        - Letao                                                        -
+        - Menu with 2 options : Add a relation & Add a preference      -
+        - Check if all the pirates have their preferences              -
+        ------------------------------------------------------------- */
+        addPreferenceAndRelation();
+
+        /*------------------------- Part III ----------------------------
+        - Paul                                                          -
+        - III. Find a solution :                                        -
+        - 1. Every pirate have their first preference if not the second -
+        - 2. The lowest possible cost ( Une solution naı̈ve )            -
+        -------------------------------------------------------------- */
+        findNaiveSolution();
+
+        /* ------------------------ Part IV --------------------------------
+        - Stan                                                             -
+        - 1. Exchange the loot : Ask the two pirates and change their loot -
+        - 2. Display the cost : The number of the jealous pirates          -
+        - After each action, display the relation                          -
+        ----------------------------------------------------------------- */
+        exchangeLootAndDisplay();
+    }
+
+    /**
+     * Config a pirate crew with :  n pirates (designated as A,B,C ...)
+     * n loots ( designated as a number) TO BE TESTED with 26 pirates
+     */
+    private void initialization(){
         System.out.println("Welcome to Loot sharing !");
         System.out.println("Please enter the number of pirates: ");
-        int numberPirates = Util.getChoiceInt(MAXPIRATES);
-        char maxCharAllowed = (char) ('A' + numberPirates - 1);
+        numberPirates = Util.getChoiceInt(MAXPIRATES);
+        maxCharAllowed = (char) ('A' + numberPirates - 1);
         System.out.println();
-        init(numberPirates);
+
+        // Initialisation of the pirate list
+        pirates = new ArrayList<>();
+        for (int i = 0; i < numberPirates; i++) {
+            char name = (char) ('A' + i);
+            pirates.add(new Pirate(name));
+        }
+        for (Pirate p : pirates) {
+            System.out.println("Pirate " + p.getName());
+        }
         System.out.println(numberPirates + " Pirates have been initialized.");
 
-
         // Initialisation of the loot list
-        ArrayList<Loot> listOfLoot = new ArrayList<>();
+        listOfLoot = new ArrayList<>();
         for (int i = 1; i < numberPirates + 1; i++) {
             Loot l = new Loot(i);
             listOfLoot.add(l);
@@ -57,18 +87,16 @@ public class Controller {
         System.out.println(numberPirates + " Loots have been initialized \n");
 
         //Default preference list for the pirates
-
         for (Pirate p : pirates) {
             p.setPreferenceList(listOfLoot);
         }
+    }
 
-
-        /*--------------------------Part II ----------------------------
-        - Letao                                                        -
-        - Menu with 2 options : Add a relation & Add a preference      -
-        - Check if all the pirates have their preferences              -
-        ------------------------------------------------------------- */
-
+    /**
+     * Menu with 2 options : Add a relation & Add a preference      -
+     * Check if all the pirates have their preferences
+     */
+    private void addPreferenceAndRelation(){
         int choice;
         do {
             // Menu
@@ -80,58 +108,28 @@ public class Controller {
 
             switch (choice) {
                 case 1: {
-                    // Asks the user which pirates hate each other
-                    System.out.println("Le pirate _ ne s’aime pas le pirate _ ");
-                    System.out.println("Please fill in the characters corresponding to the pirates");
-                    System.out.println("The first character is : ");
-                    char firstName = Util.getChoiceChar(maxCharAllowed);
-                    System.out.println("The second character is : ");
-                    char secondName = Util.getChoiceChar(maxCharAllowed, firstName);
-
-                    // Puts the pirate A in the pirate B's enemies list ( same for the A )
-                    getPirate(firstName).addPirateDislike(getPirate(secondName));
-
-                    System.out.print(getPirate(firstName).getName() + " dislikes ");
-                    getPirate(firstName).printDislike();
+                    addRelation();
                     break;
                 }
-
                 case 2: {
-                    // Displays the format that user has to type, if it's not the case we ask the user to type again with the good format
-                    System.out.print("Please enter the information in the following format : \nA ");
-                    for (int i = 1; i <= numberPirates; i++) {
-                        System.out.print(i + " ");
-                    }
-                    System.out.println("\n(Veillez à bien séparer les informations par (au moins un) espace)");
-                    String inputText = Util.getInputPreference(maxCharAllowed);
-                    Pirate pirateChosen = getPirate(Character.toUpperCase(inputText.charAt(0)));
-                    ArrayList<Loot> listPreferences = new ArrayList<>();
-                    for (int i = 1; i <= numberPirates; i++) {
-                        // '2' -> 2
-                        int numberObject = Integer.parseInt(String.valueOf(Character.toUpperCase(inputText.charAt(i * 2))));
-                        listPreferences.add(new Loot(numberObject));
-                    }
-                    // here we set the new list preferences
-                    pirateChosen.setPreferenceList(listPreferences);
-                    System.out.println(pirateChosen);
+                    addPreference();
                 }
             }
         } while (choice != 3);
 
         for (Pirate p : pirates) {
-            System.out.println(p + "\n");
+            System.out.println(p);
         }
 
         System.out.println("Pirate preferences and relations have saved.");
+    }
 
-
-
-        /*------------------------- Part III ----------------------------
-        - Paul                                                          -
-        - III. Find a solution :                                        -
-        - 1. Every pirate have their first preference if not the second -
-        - 2. The lowest possible cost ( Une solution naı̈ve )            -
-        -------------------------------------------------------------- */
+    /**
+     * Find a solution :
+     * 1. Every pirate have their first preference if not the second
+     * 2. The lowest possible cost ( Une solution naı̈ve )
+     */
+    private void findNaiveSolution(){
         int numberLoot;
         // Give the loot according to the first pirate, the first loot (solution naive)
         System.out.println("Solution Naïve --------------------------->");
@@ -154,20 +152,14 @@ public class Controller {
         for (Pirate p : pirates) {
             System.out.println("The pirate " + p.getName() + " has the loot : " + p.getObjectObtained() + "\n");
         }
+    }
 
-
-
-        /* ------------------------ Part IV --------------------------------
-        - Stan                                                             -
-        - 1. Exchange the loot : Ask the two pirates and change their loot -
-        - 2. Display the cost : The number of the jealous pirates          -
-        - After each action, display the relation                          -
-        ----------------------------------------------------------------- */
-
-        /* Stan
-        Exchange the loot : Ask the two pirates and change their loot
-         */
-
+    /**
+     * 1. Exchange the loot : Ask the two pirates and change their loot -
+     * 2. Display the cost : The number of the jealous pirates          -
+     * After each action, display the relation
+     */
+    private void exchangeLootAndDisplay(){
         int option;
         do {
             // Menu
@@ -178,20 +170,7 @@ public class Controller {
             option = Util.getChoiceInt(3);
             switch (option) {
                 case 1: {
-                    // Ask the user which pirates exchange their loot
-                    System.out.println("Please fill in the characters corresponding to the pirates");
-                    System.out.println("The first character is : ");
-                    char firstName = Util.getChoiceChar(maxCharAllowed);
-                    System.out.println("The second character is : ");
-                    char secondName = Util.getChoiceChar(maxCharAllowed, firstName);
-
-                    // Exchange the loot
-                    Loot l1 = getPirate(firstName).getObjectObtained();
-                    Loot l2 = getPirate(secondName).getObjectObtained();
-
-                    getPirate(firstName).setObjectObtained(l2);
-                    getPirate(secondName).setObjectObtained(l1);
-
+                    exchangeLoot();
                     break;
                 }
 
@@ -200,7 +179,6 @@ public class Controller {
                           */
                     // Displays the number of jealous pirates
                     System.out.println("The number of jealous pirates is : " + Util.calculateCost(pirates));
-
                     break;
                 }
             }
@@ -210,10 +188,68 @@ public class Controller {
             }
         } while (option != 3);
         System.out.println("END");
-
-
     }
 
+    /**
+     * Add the dislike relation between pirates by interacting with users
+     */
+    private void addRelation(){
+        // Asks the user which pirates hate each other
+        System.out.println("Le pirate _ ne s’aime pas le pirate _ ");
+        System.out.println("Please fill in the characters corresponding to the pirates");
+        System.out.println("The first character is : ");
+        char firstName = Util.getChoiceChar(maxCharAllowed);
+        System.out.println("The second character is : ");
+        char secondName = Util.getChoiceChar(maxCharAllowed, firstName);
+
+        // Puts the pirate A in the pirate B's enemies list ( same for the A )
+        getPirate(firstName).addPirateDislike(getPirate(secondName));
+
+        System.out.print(getPirate(firstName).getName() + " dislikes ");
+        getPirate(firstName).printDislike();
+    }
+
+    /**
+     * Add the preference between pirates by interacting with users
+     */
+    private void addPreference(){
+        // Displays the format that user has to type, if it's not the case we ask the user to type again with the good format
+        System.out.print("Please enter the information in the following format : \nA ");
+        for (int i = 1; i <= numberPirates; i++) {
+            System.out.print(i + " ");
+        }
+        System.out.println("\n(Veillez à bien séparer les informations par (au moins un) espace)");
+        String inputText = Util.getInputPreference(maxCharAllowed);
+        Pirate pirateChosen = getPirate(Character.toUpperCase(inputText.charAt(0)));
+        ArrayList<Loot> listPreferences = new ArrayList<>();
+        for (int i = 1; i <= numberPirates; i++) {
+            // '2' -> 2
+            int numberObject = Integer.parseInt(String.valueOf(Character.toUpperCase(inputText.charAt(i * 2))));
+            listPreferences.add(new Loot(numberObject));
+        }
+        // here we set the new list preferences
+        pirateChosen.setPreferenceList(listPreferences);
+        System.out.println(pirateChosen);
+    }
+
+    /**
+     * Exchange the loot between pirates by interacting with users
+     */
+    private void exchangeLoot(){
+        // Ask the user which pirates exchange their loot
+        System.out.println("Please fill in the characters corresponding to the pirates");
+        System.out.println("The first character is : ");
+        char firstName = Util.getChoiceChar(maxCharAllowed);
+        System.out.println("The second character is : ");
+        char secondName = Util.getChoiceChar(maxCharAllowed, firstName);
+
+        // Exchange the loot
+        Loot l1 = getPirate(firstName).getObjectObtained();
+        Loot l2 = getPirate(secondName).getObjectObtained();
+
+        getPirate(firstName).setObjectObtained(l2);
+        getPirate(secondName).setObjectObtained(l1);
+    }
 
     public Pirate getPirate(char name) {
         for (Pirate p : pirates) {
