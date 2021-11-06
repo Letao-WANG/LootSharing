@@ -5,8 +5,6 @@ import model.Pirate;
 import model.Util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Responsible for storing and manipulating Pirates data, the program mainly runs in this Class
@@ -15,6 +13,7 @@ import java.util.List;
 public class Controller {
     private static final int MAXPIRATES = 26;
     private ArrayList<Pirate> pirates;
+
     public Controller() {
     }
 
@@ -41,21 +40,21 @@ public class Controller {
         ------------------------------------------------------------------*/
 
         System.out.println("Welcome to Loot sharing !");
-        System.out.print("Please enter the number of pirates: ");
+        System.out.println("Please enter the number of pirates: ");
         int numberPirates = Util.getChoiceInt(MAXPIRATES);
         char maxCharAllowed = (char) ('A' + numberPirates - 1);
         System.out.println();
         init(numberPirates);
-        System.out.println(numberPirates + " Pirates have been initialized.\n");
+        System.out.println(numberPirates + " Pirates have been initialized.");
 
 
         // Initialisation of the loot list
-        ArrayList<Loot> listOfLoot = new ArrayList<Loot>();
+        ArrayList<Loot> listOfLoot = new ArrayList<>();
         for (int i = 1; i < numberPirates + 1; i++) {
             Loot l = new Loot(i);
             listOfLoot.add(l);
         }
-        System.out.println(numberPirates + " Loots have been initialized ");
+        System.out.println(numberPirates + " Loots have been initialized \n");
 
         //Default preference list for the pirates
 
@@ -78,6 +77,7 @@ public class Controller {
             System.out.println("2) ajouter des préférences;");
             System.out.println("3) fin");
             choice = Util.getChoiceInt(3);
+
             switch (choice) {
                 case 1: {
                     // Asks the user which pirates hate each other
@@ -118,7 +118,6 @@ public class Controller {
             }
         } while (choice != 3);
 
-        //
         for (Pirate p : pirates) {
             System.out.println(p + "\n");
         }
@@ -133,25 +132,25 @@ public class Controller {
         - 1. Every pirate have their first preference if not the second -
         - 2. The lowest possible cost ( Une solution naı̈ve )            -
         -------------------------------------------------------------- */
-        int numberloot;
+        int numberLoot;
         // Give the loot according to the first pirate, the first loot (solution naive)
         System.out.println("Solution Naïve --------------------------->");
         for (Pirate p : pirates) {
-            int i = 0;
+            int index = 0;
 
             // Check if the pirate have the loot
             while (p.getObjectObtained() == null) {
-                numberloot = p.getPreferenceList().get(i).getNumber();
+                numberLoot = p.getPreferenceList().get(index).getNumber();
 
-                // If loot "numberloot" is available then we give it to this pirate
-                if (!listOfLoot.get(numberloot - 1).isToken()) {
-                    p.setObjectObtained(listOfLoot.get(numberloot - 1));
-                    listOfLoot.get(numberloot - 1).setToken(true);
+                // If loot "numberLoot" is available then we give it to this pirate
+                if (!listOfLoot.get(numberLoot - 1).isToken()) {
+                    p.setObjectObtained(listOfLoot.get(numberLoot - 1));
+                    listOfLoot.get(numberLoot - 1).setToken(true);
                 }
-                i++;
+                index++;
             }
         }
-        // Displays what the pirates has as loot
+        // Displays what the pirates have as loot
         for (Pirate p : pirates) {
             System.out.println("The pirate " + p.getName() + " has the loot : " + p.getObjectObtained() + "\n");
         }

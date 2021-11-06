@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -68,7 +67,7 @@ public class Util {
 
     /**
      * Get the information of pirate's preference
-     * @param maxCharAllowed
+     * @param maxCharAllowed the max character allowed
      * @return e.g., A 1 2 3 when there are 3 pirates, maxCharAllowed is 'C'
      */
     public static String getInputPreference(char maxCharAllowed) {
@@ -89,7 +88,6 @@ public class Util {
         int nbJealous = 0;
         HashMap<Character, Integer> compteurs = new HashMap<>();
         for (Pirate p : pirates) {
-            int i = 0;
             for(int k = 0; k<p.getPreferenceList().size(); k++){
                 if((p.getObjectObtained().getNumber() == (p.getPreferenceList().get(k).getNumber()))){
                     compteurs.put(p.getName(), k);
@@ -98,7 +96,7 @@ public class Util {
         }
         for (Pirate p : pirates) {
             for (int i = 0; i < p.getPirateDislike().size(); i++) {
-                if (compteurs.get(p.getPirateDislike().get(i).getName()) != ((compteurs.get(p.getName())))) {
+                if (!compteurs.get(p.getPirateDislike().get(i).getName()).equals(compteurs.get(p.getName()))) {
                     nbJealous++;
                 }
             }
@@ -147,7 +145,7 @@ public class Util {
         match = pattern.matcher(inputText).find();
 
         while (!match) {
-            System.out.printf(inputText + " is not appropriate, please input a new one:\n");
+            System.out.println(inputText + " is not appropriate, please input a new one:");
             System.out.println("Pattern : " + pattern);
             inputText = sc.nextLine();
             match = pattern.matcher(inputText).find();
@@ -166,13 +164,13 @@ public class Util {
     private static String getPreferenceRegex(char maxCharAllowed) {
         char c = Character.toUpperCase(maxCharAllowed);
         int numberObjects = c - 'A' + 1;
-        String regex = "";
-        regex += "^[A-" + c + "]";
+        StringBuilder regex = new StringBuilder();
+        regex.append("^[A-").append(c).append("]");
 
         for (int i = 0; i < numberObjects; i++) {
-            regex += " " + getIntRegex(numberObjects, false);
+            regex.append(" ").append(getIntRegex(numberObjects, false));
         }
-        regex += "$";
-        return regex;
+        regex.append("$");
+        return regex.toString();
     }
 }

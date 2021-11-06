@@ -7,7 +7,7 @@ import java.util.ArrayList;
  *
  *  name : name of this pirate
  *  pirateDislike : list of pirates that this pirate dislike
- *  preferenceList : list of objects that this pirate prefer
+ *  preferenceList : list of objects that this pirate prefers
  *  objectObtained : the object that this pirate has obtained by algo or solution
  */
 public class Pirate {
