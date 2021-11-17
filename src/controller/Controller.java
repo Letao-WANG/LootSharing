@@ -4,7 +4,10 @@ import model.Loot;
 import model.Pirate;
 import model.Util;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Responsible for storing and manipulating Pirates data, the program mainly runs in this Class
@@ -18,7 +21,8 @@ public class Controller {
     private int numberPirates;
     private char maxCharAllowed;
 
-    public Controller() { }
+    public Controller() {
+    }
 
     /**
      * Execute the program of the project in the terminal
@@ -60,7 +64,7 @@ public class Controller {
      * Config a pirate crew with :  n pirates (designated as A,B,C ...)
      * n loots ( designated as a number) TO BE TESTED with 26 pirates
      */
-    private void initialization(){
+    private void initialization() {
         System.out.println("Welcome to Loot sharing !");
         System.out.println("Please enter the number of pirates: ");
         numberPirates = Util.getChoiceInt(MAXPIRATES);
@@ -96,7 +100,7 @@ public class Controller {
      * Menu with 2 options : Add a relation & Add a preference      -
      * Check if all the pirates have their preferences
      */
-    private void addPreferenceAndRelation(){
+    private void addPreferenceAndRelation() {
         int choice;
         do {
             // Menu
@@ -129,7 +133,7 @@ public class Controller {
      * 1. Every pirate have their first preference if not the second
      * 2. The lowest possible cost ( Une solution naı̈ve )
      */
-    private void findNaiveSolution(){
+    private void findNaiveSolution() {
         int numberLoot;
         // Give the loot according to the first pirate, the first loot (solution naive)
         System.out.println("Solution Naïve --------------------------->");
@@ -159,7 +163,7 @@ public class Controller {
      * 2. Display the cost : The number of the jealous pirates          -
      * After each action, display the relation
      */
-    private void exchangeLootAndDisplay(){
+    private void exchangeLootAndDisplay() {
         int option;
         do {
             // Menu
@@ -193,7 +197,7 @@ public class Controller {
     /**
      * Add the dislike relation between pirates by interacting with users
      */
-    private void addRelation(){
+    private void addRelation() {
         // Asks the user which pirates hate each other
         System.out.println("Le pirate _ ne s’aime pas le pirate _ ");
         System.out.println("Please fill in the characters corresponding to the pirates");
@@ -212,7 +216,7 @@ public class Controller {
     /**
      * Add the preference between pirates by interacting with users
      */
-    private void addPreference(){
+    private void addPreference() {
         // Displays the format that user has to type, if it's not the case we ask the user to type again with the good format
         System.out.print("Please enter the information in the following format : \nA ");
         for (int i = 1; i <= numberPirates; i++) {
@@ -235,7 +239,7 @@ public class Controller {
     /**
      * Exchange the loot between pirates by interacting with users
      */
-    private void exchangeLoot(){
+    private void exchangeLoot() {
         // Ask the user which pirates exchange their loot
         System.out.println("Please fill in the characters corresponding to the pirates");
         System.out.println("The first character is : ");
@@ -261,5 +265,74 @@ public class Controller {
         // this will theoretically never execute
         System.out.println("Pirate not found!");
         return new Pirate();
+    }
+
+    /*-------------------------------------------------------------*/
+    /*---------------------- Sujet partie II ----------------------*/
+    /*-------------------------------------------------------------*/
+
+    /**
+     * read data from file "info.data", convert and save to Java Class
+     */
+    public void readData() {
+        File file = new File("src/data/info.data");
+
+        // initialisation
+        pirates = new ArrayList<>();
+        listOfLoot = new ArrayList<>();
+
+        // read file and transform to Class Java
+        try {
+            Scanner sc = new Scanner(file);
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                ArrayList<Integer> listName = Util.getNameFromLine(line);
+                switch (Util.getActionFromLine(line)) {
+                    case "pirate": {
+                        char namePirate = Util.intToChar(listName.get(0));
+                        pirates.add(new Pirate(namePirate));
+                        break;
+                    }
+                    case "object": {
+                        int number = listName.get(0);
+                        listOfLoot.add(new Loot(number));
+                        break;
+                    }
+                    case "deteste": {
+                        char namePirate1 = Util.intToChar(listName.get(0));
+                        char namePirate2 = Util.intToChar(listName.get(1));
+                        Pirate p1 = getPirate(namePirate1);
+                        Pirate p2 = getPirate(namePirate2);
+                        p1.addPirateDislike(p2);
+                        break;
+                    }
+                    case "preferences": {
+
+                        Pirate pirateChosen = getPirate(Util.intToChar(listName.get(0)));
+                        ArrayList<Loot> listPreferences = new ArrayList<>();
+                        for (int i = 1; i < listName.size(); i++) {
+                            listPreferences.add(new Loot(listName.get(i)));
+                        }
+                        // here we set the new list preferences
+                        pirateChosen.setPreferenceList(listPreferences);
+                        break;
+                    }
+                }
+            }
+            sc.close();
+        } catch (
+                FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Display the information of pirates
+     */
+    public void printPirates(){
+        for (Pirate p : pirates) {
+            System.out.println(p);
+            System.out.println("The pirate " + p.getName() + " has the loot : " + p.getObjectObtained() + "\n");
+        }
     }
 }

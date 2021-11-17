@@ -10,6 +10,8 @@ import controller.Controller;
 public class Execute {
     public static void main(String[] args) {
         Controller controller = new Controller();
-        controller.runWithoutGraphic();
+//        controller.runWithoutGraphic();
+        controller.readData();
+        controller.printPirates();
     }
 }

@@ -106,6 +106,40 @@ public class Util {
         return nbJealous/2;
     }
 
+    /**
+     * Read name from a String line, convert to list in the format of Integer
+     * @param line a String line we read from data file
+     * @return a list, every element is the name(or number) of pirate(or loot).
+     */
+    public static ArrayList<Integer> getNameFromLine(String line){
+        String nameLine = line.substring(line.indexOf("(") + 1, line.indexOf(")"));
+        String[] nameArray = nameLine.split(",");
+        ArrayList<Integer> names = new ArrayList<>();
+        for(String name : nameArray){
+            // add the last character(transform to int) to arrayList<Integer>
+            names.add(Integer.valueOf(name.substring(name.length()-1)));
+        }
+        return names;
+    }
+
+    /**
+     * Read action from a String line
+     * @param line a String line we read from data file
+     * @return the name of Class we want to create, e.g. "pirate(***)" will only return "pirate"
+     */
+    public static String getActionFromLine(String line){
+        return line.substring(0, line.indexOf("("));
+    }
+
+    /**
+     * Convert int to char
+     * @param number format int
+     * @return format char
+     */
+    public static char intToChar(int number){
+        return (char)(number + '0');
+    }
+
     /*--------------------------------------------------------
     ------ PART PRIVATE METHODS, we don't use them directly, -
     ------ so we don’t have to pay too much attention --------
