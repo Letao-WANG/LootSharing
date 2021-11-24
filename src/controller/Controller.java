@@ -134,24 +134,25 @@ public class Controller {
      * 2. The lowest possible cost ( Une solution naı̈ve )
      */
     private void findNaiveSolution() {
-        int numberLoot;
+//        int numberLoot;
         // Give the loot according to the first pirate, the first loot (solution naive)
         System.out.println("Solution Naïve --------------------------->");
-        for (Pirate p : pirates) {
-            int index = 0;
-
-            // Check if the pirate have the loot
-            while (p.getObjectObtained() == null) {
-                numberLoot = p.getPreferenceList().get(index).getNumber();
-
-                // If loot "numberLoot" is available then we give it to this pirate
-                if (!listOfLoot.get(numberLoot - 1).isToken()) {
-                    p.setObjectObtained(listOfLoot.get(numberLoot - 1));
-                    listOfLoot.get(numberLoot - 1).setToken(true);
-                }
-                index++;
-            }
-        }
+        algoNaive();
+//        for (Pirate p : pirates) {
+//            int index = 0;
+//
+//            // Check if the pirate have the loot
+//            while (p.getObjectObtained() == null) {
+//                numberLoot = p.getPreferenceList().get(index).getNumber();
+//
+//                // If loot "numberLoot" is available then we give it to this pirate
+//                if (!listOfLoot.get(numberLoot - 1).isToken()) {
+//                    p.setObjectObtained(listOfLoot.get(numberLoot - 1));
+//                    listOfLoot.get(numberLoot - 1).setToken(true);
+//                }
+//                index++;
+//            }
+//        }
         // Displays what the pirates have as loot
         for (Pirate p : pirates) {
             System.out.println("The pirate " + p.getName() + " has the loot : " + p.getObjectObtained() + "\n");
@@ -293,7 +294,7 @@ public class Controller {
                         pirates.add(new Pirate(namePirate));
                         break;
                     }
-                    case "object": {
+                    case "objet": {
                         int number = listName.get(0);
                         listOfLoot.add(new Loot(number));
                         break;
@@ -326,6 +327,24 @@ public class Controller {
         }
     }
 
+    public void algoNaive(){
+        int numberLoot;
+        for (Pirate p : pirates) {
+            int index = 0;
+            // Check if the pirate have the loot
+            while (p.getObjectObtained() == null) {
+                numberLoot = p.getPreferenceList().get(index).getNumber();
+
+                // If loot "numberLoot" is available then we give it to this pirate
+                if (!listOfLoot.get(numberLoot - 1).isToken()) {
+                    p.setObjectObtained(listOfLoot.get(numberLoot - 1));
+                    listOfLoot.get(numberLoot - 1).setToken(true);
+                }
+                index++;
+            }
+        }
+    }
+
     /**
      * Display the information of pirates
      */
@@ -333,6 +352,26 @@ public class Controller {
         for (Pirate p : pirates) {
             System.out.println(p);
             System.out.println("The pirate " + p.getName() + " has the loot : " + p.getObjectObtained() + "\n");
+        }
+    }
+
+    public void printLoots(){
+        System.out.println("print loots : ");
+        for(Loot l : listOfLoot){
+            System.out.println(l);
+        }
+    }
+
+    public void printCost(){
+        System.out.println("The number of jealous pirates is : " + Util.calculateCost(pirates));
+    }
+
+    public void addLoot(){
+        int[] numbers = {1, 3, 2, 4};
+        int ind = 0;
+        for (Pirate p : pirates){
+            p.setObjectObtained(new Loot(numbers[ind]));
+            ind++;
         }
     }
 }

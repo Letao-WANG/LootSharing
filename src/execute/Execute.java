@@ -12,6 +12,11 @@ public class Execute {
         Controller controller = new Controller();
 //        controller.runWithoutGraphic();
         controller.readData();
+//        controller.printLoots();
+//        controller.printPirates();
+//        controller.algoNaive();
+        controller.addLoot();
         controller.printPirates();
+        controller.printCost();
     }
 }

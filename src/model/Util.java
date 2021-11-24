@@ -26,8 +26,8 @@ public class Util {
     }
 
     /**
-     * @see Util#getChoiceInt( int)
      * @param exception number not allowed inputting
+     * @see Util#getChoiceInt(int)
      */
     public static int getChoiceInt(int maxIntAllowed, int exception) {
         int number;
@@ -54,8 +54,8 @@ public class Util {
     }
 
     /**
-     * @see Util#getChoiceChar(char)
      * @param exception char not allowed inputting
+     * @see Util#getChoiceChar(char)
      */
     public static char getChoiceChar(char maxCharAllowed, char exception) {
         char c;
@@ -67,6 +67,7 @@ public class Util {
 
     /**
      * Get the information of pirate's preference
+     *
      * @param maxCharAllowed the max character allowed
      * @return e.g., A 1 2 3 when there are 3 pirates, maxCharAllowed is 'C'
      */
@@ -79,17 +80,15 @@ public class Util {
      * Calculate the cost of the naive solution for these pirates, i.e. the number of jealous pirates
      * Calculer le cout de la solution naive pour ces pirates, c'est a dire le nombre de pirate jaloux
      *
-     *
-     *
      * @param pirates List of the pirates that the user has determined in the terminal
      * @return The number of the jealous pirates
      */
-    public static int calculateCost(ArrayList<Pirate> pirates){
+    public static int calculateCost(ArrayList<Pirate> pirates) {
         int nbJealous = 0;
         HashMap<Character, Integer> compteurs = new HashMap<>();
         for (Pirate p : pirates) {
-            for(int k = 0; k<p.getPreferenceList().size(); k++){
-                if((p.getObjectObtained().getNumber() == (p.getPreferenceList().get(k).getNumber()))){
+            for (int k = 0; k < p.getPreferenceList().size(); k++) {
+                if ((p.getObjectObtained().getNumber() == (p.getPreferenceList().get(k).getNumber()))) {
                     compteurs.put(p.getName(), k);
                 }
             }
@@ -101,43 +100,44 @@ public class Util {
                 }
             }
         }
-
-
-        return nbJealous/2;
+        return nbJealous / 2;
     }
 
     /**
      * Read name from a String line, convert to list in the format of Integer
+     *
      * @param line a String line we read from data file
      * @return a list, every element is the name(or number) of pirate(or loot).
      */
-    public static ArrayList<Integer> getNameFromLine(String line){
+    public static ArrayList<Integer> getNameFromLine(String line) {
         String nameLine = line.substring(line.indexOf("(") + 1, line.indexOf(")"));
         String[] nameArray = nameLine.split(",");
         ArrayList<Integer> names = new ArrayList<>();
-        for(String name : nameArray){
+        for (String name : nameArray) {
             // add the last character(transform to int) to arrayList<Integer>
-            names.add(Integer.valueOf(name.substring(name.length()-1)));
+            names.add(Integer.valueOf(name.substring(name.length() - 1)));
         }
         return names;
     }
 
     /**
      * Read action from a String line
+     *
      * @param line a String line we read from data file
      * @return the name of Class we want to create, e.g. "pirate(***)" will only return "pirate"
      */
-    public static String getActionFromLine(String line){
+    public static String getActionFromLine(String line) {
         return line.substring(0, line.indexOf("("));
     }
 
     /**
      * Convert int to char
+     *
      * @param number format int
      * @return format char
      */
-    public static char intToChar(int number){
-        return (char)(number + '0');
+    public static char intToChar(int number) {
+        return (char) (number + '0');
     }
 
     /*--------------------------------------------------------
@@ -153,7 +153,7 @@ public class Util {
      * @see Util#getChoiceInt(int)
      */
     private static String getIntRegex(int maxIntAllowed, boolean matchExactly) {
-        String regex = (matchExactly)? "^" : "";
+        String regex = (matchExactly) ? "^" : "";
         if (0 < maxIntAllowed && maxIntAllowed < 10) {
             regex += "[1-" + maxIntAllowed + "]";
         } else if (maxIntAllowed >= 10 && maxIntAllowed < 100) {
@@ -161,16 +161,17 @@ public class Util {
             int tensPlace = maxIntAllowed / 10;
             regex += "[1-9]|[1-" + tensPlace + "]" + "[0-" + onesPlace + "]";
         }
-        regex += (matchExactly)? "$" : "";
+        regex += (matchExactly) ? "$" : "";
         return regex;
     }
 
     /**
      * Input method general, used in other methods input based on pattern
-     * @see Util#getInputPreference(char) 
-     * @see Util#getPreferenceRegex(char)
+     *
      * @param pattern regular expression pattern, based for verifying the input of user
      * @return the value that the user typed
+     * @see Util#getInputPreference(char)
+     * @see Util#getPreferenceRegex(char)
      */
     private static String getInput(Pattern pattern) {
         Scanner sc = new Scanner(System.in);
