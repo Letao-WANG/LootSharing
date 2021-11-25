@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -131,6 +130,13 @@ public class Util {
         return (char) (number + '0');
     }
 
+    /**
+     * Get a random number
+     * @param max max number allowed
+     * @param min min number allowed
+     * @param except number not allowed return
+     * @return the random number
+     */
     public static int randomInt(int max, int min, int except){
         Random random = new Random();
         int number = (random.nextInt((max - min) + 1)) + min;
@@ -139,6 +145,10 @@ public class Util {
         }
         return number;
     }
+
+    /**
+     * @see Util#randomInt(int, int)
+     */
     public static int randomInt(int max, int min){
         Random random = new Random();
         return (random.nextInt((max - min) + 1)) + min;

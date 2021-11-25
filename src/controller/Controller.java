@@ -252,6 +252,12 @@ public class Controller {
         // Exchange the loot
         exchangeLootWithPirateName(firstName, secondName);
     }
+
+    /**
+     * Exchange the loot between pirates
+     * @param firstName first pirate name
+     * @param secondName second pirate name
+     */
     public void exchangeLootWithPirateName(char firstName, char secondName){
         Loot l1 = getPirate(firstName).getObjectObtained();
         Loot l2 = getPirate(secondName).getObjectObtained();
@@ -260,6 +266,11 @@ public class Controller {
         getPirate(secondName).setObjectObtained(l1);
     }
 
+    /**
+     * Get the pirate according to the name
+     * @param name pirate name
+     * @return pirate
+     */
     public Pirate getPirate(char name) {
         for (Pirate p : pirates) {
             if (p.getName() == name) {
@@ -268,7 +279,11 @@ public class Controller {
         }
         // Because of the regular expression restriction input
         // this will theoretically never execute
-        System.out.println("Pirate not found!");
+        try{
+            throw new Exception("Pirate not found!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return new Pirate();
     }
 
@@ -277,7 +292,7 @@ public class Controller {
     /*-------------------------------------------------------------*/
 
     /**
-     * read data from file "info.data", convert and save to Java Class
+     * Read data from file "info.data", convert and save to Java Class
      */
     public void readData() {
         File file = new File("src/data/info.data");
@@ -332,6 +347,11 @@ public class Controller {
         }
     }
 
+    /**
+     * Algorithme 1 : Un algorithme d’approximation (naïf) in the sujet
+     * exchange loot random to optimiser the cost
+     * @param k number of loop
+     */
     public void approximate(int k){
         int costOld = Util.calculateCost(pirates);
         for(int i=0; i<k; i++){
@@ -346,6 +366,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Distribution the loot
+     */
     public void algoNaive(){
         int numberLoot;
         for (Pirate p : pirates) {
@@ -374,6 +397,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Display the information of loots
+     */
     public void printLoots(){
         System.out.println("print loots : ");
         for(Loot l : listOfLoot){
@@ -381,10 +407,16 @@ public class Controller {
         }
     }
 
+    /**
+     * Display the information of cost
+     */
     public void printCost(){
         System.out.println("The number of jealous pirates is : " + Util.calculateCost(pirates));
     }
 
+    /**
+     * Add loots to the pirates, use in testing
+     */
     public void addLoot(){
         int[] numbers = {1, 3, 2, 4};
         int ind = 0;
