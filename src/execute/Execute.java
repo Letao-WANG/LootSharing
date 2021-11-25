@@ -1,6 +1,7 @@
 package execute;
 
 import controller.Controller;
+import model.Util;
 
 /**
  * Classe d'exécution lorsqu'il n'y a pas d'interface graphique

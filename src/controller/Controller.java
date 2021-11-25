@@ -239,6 +239,17 @@ public class Controller {
         exchangeLootWithPirateName(firstName, secondName);
     }
 
+    private void exchangeLootInNumber(){
+        System.out.println("Please fill in the numbers corresponding to the pirates");
+        System.out.println("The first number is : ");
+        int firstName = Util.getChoiceInt(numberPirates);
+        System.out.println("The second number is : ");
+        int secondName = Util.getChoiceInt(numberPirates, firstName);
+
+        // Exchange the loot
+        exchangeLootWithPirateName(Util.intToChar(firstName), Util.intToChar(secondName));
+    }
+
     /**
      * Exchange the loot between pirates
      * @param firstName first pirate name
@@ -277,6 +288,9 @@ public class Controller {
     /*---------------------- Sujet partie II ----------------------*/
     /*-------------------------------------------------------------*/
 
+    /**
+     * Main method of sujet part II
+     */
     public void runWithAutomation(){
         readData();
         algoNaive();
@@ -339,10 +353,12 @@ public class Controller {
         }
     }
 
+    /**
+     * Enter the menu with user interaction
+     */
     public void menu(){
         int choice;
         do {
-
             printPirates();
             printCost();
             // Menu
@@ -359,11 +375,11 @@ public class Controller {
                     break;
                 }
                 case 2: {
-                    exchangeLoot();
+                    exchangeLootInNumber();
                     System.out.println(Util.calculateCost(pirates));
                 }
                 case 3: {
-                    // TO DO
+                    saveData();
                 }
             }
         } while (choice != 4);
@@ -444,5 +460,12 @@ public class Controller {
             p.setObjectObtained(new Loot(numbers[ind]));
             ind++;
         }
+    }
+
+    /**
+     * Save the data into file
+     */
+    public void saveData(){
+
     }
 }
