@@ -72,6 +72,32 @@ public class Pirate {
         System.out.println();
     }
 
+    public int getPrePriority(Loot loot){
+        int index = 1;
+        for(Loot l : preferenceList){
+            if(l.getNumber() == loot.getNumber()){
+                return index;
+            }
+            index++;
+        }
+        // Loot obtained doesn't exist in the preferenceList
+        try {
+            throw new Exception("Loot obtained doesn't exist in the preferenceList.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public boolean getJealous(){
+        for(Pirate p : pirateDislike){
+            if(this.getPrePriority(p.getObjectObtained()) < this.getPrePriority(lootObtained)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Method that returns the name of the pirate
      * @return the value of the variable name
@@ -145,6 +171,8 @@ public class Pirate {
             for(Pirate p : pirateDislike){
                 res += p.getName() + ", ";
             }
+            res += "Pirate is ";
+            res += (getJealous())? " jealous":"not jealous";
         }
         return res;
 

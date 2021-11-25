@@ -18,5 +18,9 @@ public class Execute {
         controller.addLoot();
         controller.printPirates();
         controller.printCost();
+
+        controller.approximate(50);
+        controller.printPirates();
+        controller.printCost();
     }
 }

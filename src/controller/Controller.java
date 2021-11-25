@@ -7,6 +7,7 @@ import model.Util;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -249,6 +250,9 @@ public class Controller {
         char secondName = Util.getChoiceChar(maxCharAllowed, firstName);
 
         // Exchange the loot
+        exchangeLootWithPirateName(firstName, secondName);
+    }
+    public void exchangeLootWithPirateName(char firstName, char secondName){
         Loot l1 = getPirate(firstName).getObjectObtained();
         Loot l2 = getPirate(secondName).getObjectObtained();
 
@@ -320,10 +324,25 @@ public class Controller {
                     }
                 }
             }
+            numberPirates = pirates.size();
             sc.close();
         } catch (
                 FileNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void approximate(int k){
+        int costOld = Util.calculateCost(pirates);
+        for(int i=0; i<k; i++){
+            int firstPirate = Util.randomInt(numberPirates, 1 );
+            int secondPirate = Util.randomInt(numberPirates, 1, firstPirate);
+            exchangeLootWithPirateName(Util.intToChar(firstPirate), Util.intToChar(secondPirate));
+
+            // roll back
+            if(Util.calculateCost(pirates) >= costOld){
+                exchangeLootWithPirateName(Util.intToChar(secondPirate), Util.intToChar(firstPirate));
+            }
         }
     }
 

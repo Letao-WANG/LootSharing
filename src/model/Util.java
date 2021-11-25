@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -83,24 +84,14 @@ public class Util {
      * @param pirates List of the pirates that the user has determined in the terminal
      * @return The number of the jealous pirates
      */
-    public static int calculateCost(ArrayList<Pirate> pirates) {
-        int nbJealous = 0;
-        HashMap<Character, Integer> compteurs = new HashMap<>();
-        for (Pirate p : pirates) {
-            for (int k = 0; k < p.getPreferenceList().size(); k++) {
-                if ((p.getObjectObtained().getNumber() == (p.getPreferenceList().get(k).getNumber()))) {
-                    compteurs.put(p.getName(), k);
-                }
+    public static int calculateCost(ArrayList<Pirate> pirates){
+        int cost = 0;
+        for(Pirate p : pirates){
+            if(p.getJealous()){
+                cost++;
             }
         }
-        for (Pirate p : pirates) {
-            for (int i = 0; i < p.getPirateDislike().size(); i++) {
-                if (!compteurs.get(p.getPirateDislike().get(i).getName()).equals(compteurs.get(p.getName()))) {
-                    nbJealous++;
-                }
-            }
-        }
-        return nbJealous / 2;
+        return cost;
     }
 
     /**
@@ -138,6 +129,19 @@ public class Util {
      */
     public static char intToChar(int number) {
         return (char) (number + '0');
+    }
+
+    public static int randomInt(int max, int min, int except){
+        Random random = new Random();
+        int number = (random.nextInt((max - min) + 1)) + min;
+        while (number == except){
+            number = (random.nextInt((max - min) + 1)) + min;
+        }
+        return number;
+    }
+    public static int randomInt(int max, int min){
+        Random random = new Random();
+        return (random.nextInt((max - min) + 1)) + min;
     }
 
     /*--------------------------------------------------------
