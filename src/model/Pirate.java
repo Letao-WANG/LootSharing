@@ -165,14 +165,18 @@ public class Pirate {
         for(Loot o : preferenceList){
             res += o.getNumber() + ", ";
         }
-        res += "\n";
         if(pirateDislike.size() != 0){
             res += "Pirate " + getName() + " dislike ";
             for(Pirate p : pirateDislike){
                 res += p.getName() + ", ";
             }
-            res += "Pirate is ";
-            res += (getJealous())? " jealous":"not jealous";
+            res += "\n";
+            if(lootObtained != null) {
+                res += "Pirate got " + lootObtained.getNumber() + " loot, ";
+                res += "Pirate is ";
+                res += (getJealous()) ? "jealous" : "not jealous";
+                res += "\n";
+            }
         }
         return res;
 

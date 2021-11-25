@@ -1,5 +1,6 @@
 package controller;
 
+import jdk.swing.interop.SwingInterOpUtils;
 import model.Loot;
 import model.Pirate;
 import model.Util;
@@ -28,7 +29,7 @@ public class Controller {
     /**
      * Execute the program of the project in the terminal
      */
-    public void runWithoutGraphic() {
+    public void runWithUserInteraction() {
 
         /*------------------------- Part I ---------------------------------
         - Letao                                                            -
@@ -139,21 +140,6 @@ public class Controller {
         // Give the loot according to the first pirate, the first loot (solution naive)
         System.out.println("Solution Naïve --------------------------->");
         algoNaive();
-//        for (Pirate p : pirates) {
-//            int index = 0;
-//
-//            // Check if the pirate have the loot
-//            while (p.getObjectObtained() == null) {
-//                numberLoot = p.getPreferenceList().get(index).getNumber();
-//
-//                // If loot "numberLoot" is available then we give it to this pirate
-//                if (!listOfLoot.get(numberLoot - 1).isToken()) {
-//                    p.setObjectObtained(listOfLoot.get(numberLoot - 1));
-//                    listOfLoot.get(numberLoot - 1).setToken(true);
-//                }
-//                index++;
-//            }
-//        }
         // Displays what the pirates have as loot
         for (Pirate p : pirates) {
             System.out.println("The pirate " + p.getName() + " has the loot : " + p.getObjectObtained() + "\n");
@@ -291,6 +277,12 @@ public class Controller {
     /*---------------------- Sujet partie II ----------------------*/
     /*-------------------------------------------------------------*/
 
+    public void runWithAutomation(){
+        readData();
+        algoNaive();
+        menu();
+    }
+
     /**
      * Read data from file "info.data", convert and save to Java Class
      */
@@ -347,6 +339,36 @@ public class Controller {
         }
     }
 
+    public void menu(){
+        int choice;
+        do {
+
+            printPirates();
+            printCost();
+            // Menu
+            System.out.println("Choose your next action: ");
+            System.out.println("1) résolution automatique ;");
+            System.out.println("2) résolution manuelle ;");
+            System.out.println("3) sauvegarde ;");
+            System.out.println("4) fin");
+            choice = Util.getChoiceInt(4);
+
+            switch (choice) {
+                case 1: {
+                    approximate(50);
+                    break;
+                }
+                case 2: {
+                    exchangeLoot();
+                    System.out.println(Util.calculateCost(pirates));
+                }
+                case 3: {
+                    // TO DO
+                }
+            }
+        } while (choice != 4);
+    }
+
     /**
      * Algorithme 1 : Un algorithme d’approximation (naïf) in the sujet
      * exchange loot random to optimiser the cost
@@ -393,7 +415,6 @@ public class Controller {
     public void printPirates(){
         for (Pirate p : pirates) {
             System.out.println(p);
-            System.out.println("The pirate " + p.getName() + " has the loot : " + p.getObjectObtained() + "\n");
         }
     }
 
@@ -401,9 +422,8 @@ public class Controller {
      * Display the information of loots
      */
     public void printLoots(){
-        System.out.println("print loots : ");
-        for(Loot l : listOfLoot){
-            System.out.println(l);
+        for (Pirate p : pirates) {
+            System.out.println("The pirate " + p.getName() + " has the loot : " + p.getObjectObtained() + "\n");
         }
     }
 
@@ -411,7 +431,7 @@ public class Controller {
      * Display the information of cost
      */
     public void printCost(){
-        System.out.println("The number of jealous pirates is : " + Util.calculateCost(pirates));
+        System.out.println("The number of jealous pirates is : " + Util.calculateCost(pirates) + "\n");
     }
 
     /**

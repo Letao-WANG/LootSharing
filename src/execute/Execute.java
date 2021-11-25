@@ -10,17 +10,7 @@ import controller.Controller;
 public class Execute {
     public static void main(String[] args) {
         Controller controller = new Controller();
-//        controller.runWithoutGraphic();
-        controller.readData();
-//        controller.printLoots();
-//        controller.printPirates();
-//        controller.algoNaive();
-        controller.addLoot();
-        controller.printPirates();
-        controller.printCost();
-
-        controller.approximate(50);
-        controller.printPirates();
-        controller.printCost();
+//        controller.runWithUserInteraction();
+        controller.runWithAutomation();
     }
 }
