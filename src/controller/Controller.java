@@ -1,6 +1,5 @@
 package controller;
 
-import jdk.swing.interop.SwingInterOpUtils;
 import model.Loot;
 import model.Pirate;
 import model.Util;
@@ -8,7 +7,6 @@ import model.Util;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -36,14 +34,14 @@ public class Controller {
         - Config a pirate crew with :  n pirates (designated as A,B,C ...) -
         - n loots ( designated as a number) TO BE TESTED with 26 pirates   -
         ------------------------------------------------------------------*/
-        initialization();
+        initializationWithInteraction();
 
         /*--------------------------Part II ----------------------------
         - Letao                                                        -
         - Menu with 2 options : Add a relation & Add a preference      -
         - Check if all the pirates have their preferences              -
         ------------------------------------------------------------- */
-        addPreferenceAndRelation();
+        addPreferenceAndRelationWithInteraction();
 
         /*------------------------- Part III ----------------------------
         - Paul                                                          -
@@ -51,7 +49,7 @@ public class Controller {
         - 1. Every pirate have their first preference if not the second -
         - 2. The lowest possible cost ( Une solution naı̈ve )            -
         -------------------------------------------------------------- */
-        findNaiveSolution();
+        findNaiveSolutionWithInteraction();
 
         /* ------------------------ Part IV --------------------------------
         - Stan                                                             -
@@ -59,14 +57,14 @@ public class Controller {
         - 2. Display the cost : The number of the jealous pirates          -
         - After each action, display the relation                          -
         ----------------------------------------------------------------- */
-        exchangeLootAndDisplay();
+        exchangeLootAndDisplayWithInteraction();
     }
 
     /**
      * Config a pirate crew with :  n pirates (designated as A,B,C ...)
      * n loots ( designated as a number) TO BE TESTED with 26 pirates
      */
-    private void initialization() {
+    private void initializationWithInteraction() {
         System.out.println("Welcome to Loot sharing !");
         System.out.println("Please enter the number of pirates: ");
         numberPirates = Util.getChoiceInt(MAXPIRATES);
@@ -102,7 +100,7 @@ public class Controller {
      * Menu with 2 options : Add a relation & Add a preference      -
      * Check if all the pirates have their preferences
      */
-    private void addPreferenceAndRelation() {
+    private void addPreferenceAndRelationWithInteraction() {
         int choice;
         do {
             // Menu
@@ -135,7 +133,7 @@ public class Controller {
      * 1. Every pirate have their first preference if not the second
      * 2. The lowest possible cost ( Une solution naı̈ve )
      */
-    private void findNaiveSolution() {
+    private void findNaiveSolutionWithInteraction() {
 //        int numberLoot;
         // Give the loot according to the first pirate, the first loot (solution naive)
         System.out.println("Solution Naïve --------------------------->");
@@ -151,7 +149,7 @@ public class Controller {
      * 2. Display the cost : The number of the jealous pirates          -
      * After each action, display the relation
      */
-    private void exchangeLootAndDisplay() {
+    private void exchangeLootAndDisplayWithInteraction() {
         int option;
         do {
             // Menu
@@ -239,6 +237,10 @@ public class Controller {
         exchangeLootWithPirateName(firstName, secondName);
     }
 
+    /**
+     * Because we use number to mark pirate instead of character, so we need another method exchangeLoot in number
+     * @see Controller#exchangeLoot()
+     */
     private void exchangeLootInNumber(){
         System.out.println("Please fill in the numbers corresponding to the pirates");
         System.out.println("The first number is : ");
@@ -292,9 +294,12 @@ public class Controller {
      * Main method of sujet part II
      */
     public void runWithAutomation(){
+        // initializer the data to java class, get the pirates without distributing loot
         readData();
+        // distribute loots to pirates
         algoNaive();
-        menu();
+        // enter the menu
+        menuResolution();
     }
 
     /**
@@ -356,7 +361,7 @@ public class Controller {
     /**
      * Enter the menu with user interaction
      */
-    public void menu(){
+    public void menuResolution(){
         int choice;
         do {
             printPirates();
@@ -371,7 +376,7 @@ public class Controller {
 
             switch (choice) {
                 case 1: {
-                    approximate(50);
+                    algoApproximate(50);
                     break;
                 }
                 case 2: {
@@ -390,7 +395,7 @@ public class Controller {
      * exchange loot random to optimiser the cost
      * @param k number of loop
      */
-    public void approximate(int k){
+    public void algoApproximate(int k){
         int costOld = Util.calculateCost(pirates);
         for(int i=0; i<k; i++){
             int firstPirate = Util.randomInt(numberPirates, 1 );
@@ -402,6 +407,16 @@ public class Controller {
                 exchangeLootWithPirateName(Util.intToChar(secondPirate), Util.intToChar(firstPirate));
             }
         }
+    }
+
+    /**
+     * Algorithm 2 : algo more optimal
+     * exchange loot random to optimiser the cost
+     *
+     * Paul
+     */
+    public void algoOptimal(){
+
     }
 
     /**
@@ -464,6 +479,8 @@ public class Controller {
 
     /**
      * Save the data into file
+     *
+     * Stan
      */
     public void saveData(){
 
