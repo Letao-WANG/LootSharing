@@ -36,6 +36,10 @@ public class Pirate {
         return pirateDislike;
     }
 
+    public int getNumberDislike(){
+        return pirateDislike.size();
+    }
+
     /**
      * Method that sets the list of the pirates that the pirate dislikes
      * @param pirateDislike : the pirate's enemies list

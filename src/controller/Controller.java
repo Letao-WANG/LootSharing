@@ -376,7 +376,8 @@ public class Controller {
 
             switch (choice) {
                 case 1: {
-                    algoApproximate(50);
+//                    algoApproximate(50);
+                    algoOptimal();
                     break;
                 }
                 case 2: {
@@ -408,15 +409,30 @@ public class Controller {
             }
         }
     }
-
     /**
      * Algorithm 2 : algo more optimal
      * exchange loot random to optimiser the cost
-     *
-     * Paul
      */
     public void algoOptimal(){
+        //
+        Pirate pirateMostDisliked = getPirateMostDislike(pirates);
+        Loot loot = pirateMostDisliked.getPreferenceList().get(numberPirates-1);
+        pirateMostDisliked.setObjectObtained(loot);
+        listOfLoot.get(loot.getNumber()-1).setToken(true);
 
+        algoNaive();
+    }
+
+    public Pirate getPirateMostDislike(ArrayList<Pirate> listPirate){
+        int numberDislikeMax = 0;
+        Pirate res = listPirate.get(0);
+        for(Pirate p : listPirate){
+            if(p.getNumberDislike() > numberDislikeMax){
+                numberDislikeMax = p.getNumberDislike();
+                res = p;
+            }
+        }
+        return res;
     }
 
     /**
