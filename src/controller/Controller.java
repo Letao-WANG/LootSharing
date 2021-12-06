@@ -404,6 +404,10 @@ public class Controller {
         }
     }
 
+    public void optimise(){
+
+    }
+
     /**
      * Distribution the loot
      */
