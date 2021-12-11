@@ -12,6 +12,6 @@ public class Execute {
     public static void main(String[] args) {
         Controller controller = new Controller();
 //        controller.runWithUserInteraction();
-        controller.runWithUserInteraction();
+        controller.runWithAutomation();
     }
 }

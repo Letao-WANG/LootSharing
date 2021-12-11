@@ -407,8 +407,8 @@ public class Controller {
     public void algoApproximate(int k){
         int costOld = Util.calculateCost(pirates);
         for(int i=0; i<k; i++){
-            int firstPirate = Util.randomInt(numberPirates, 1 );
-            int secondPirate = Util.randomInt(numberPirates, 1, firstPirate);
+            int firstPirate = Util.randomInt(numberPirates-1, 0 );
+            int secondPirate = Util.randomInt(numberPirates-1, 0, firstPirate);
             exchangeLootWithPirateName(Util.intToChar(firstPirate), Util.intToChar(secondPirate));
 
             // roll back
