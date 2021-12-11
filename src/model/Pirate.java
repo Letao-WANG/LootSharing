@@ -176,7 +176,7 @@ public class Pirate {
             }
             res += "\n";
             if(lootObtained != null) {
-                res += "Pirate got " + lootObtained.getNumber() + " loot, ";
+                res += "Pirate got " + "loot " + lootObtained.getNumber() + ", ";
                 res += "Pirate is ";
                 res += (getJealous()) ? "jealous" : "not jealous";
                 res += "\n";

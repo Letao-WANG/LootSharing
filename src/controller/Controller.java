@@ -242,7 +242,7 @@ public class Controller {
      * @see Controller#exchangeLoot()
      */
     private void exchangeLootInNumber(){
-        System.out.println("Please fill in the numbers corresponding to the pirates");
+        System.out.println("Please fill in the numbers corresponding to the pirates for the loot exchange");
         System.out.println("The first number is : ");
         int firstName = Util.getChoiceInt(numberPirates);
         System.out.println("The second number is : ");
@@ -433,6 +433,10 @@ public class Controller {
             }
         }
         return res;
+    }
+
+    public void optimise(){
+
     }
 
     /**
