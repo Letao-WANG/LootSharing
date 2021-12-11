@@ -6,6 +6,8 @@ import model.Util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -502,7 +504,19 @@ public class Controller {
      *
      * Stan
      */
-    public void saveData(){
-
+    public void saveData() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Entrez le chemin du fichier où enregistrer le résultat");
+        String fileName = sc.nextLine();
+        File file = new File(fileName);
+        try {
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write("La solution pour le LootSharing \n");
+            for(Pirate p : pirates){
+                fileWriter.write(p.getName() + " : " + p.getObjectObtained() + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
