@@ -91,28 +91,17 @@ public class Controller {
             listOfLoot.add(l);
         }
         System.out.println(numberPirates + " Loots have been initialized \n");
+
+        //Default preference list for the pirates
+        for (Pirate p : pirates) {
+            p.setPreferenceList(listOfLoot);
+        }
     }
 
     /**
      * Menu with 2 options : Add a relation & Add a preference      -
      * Check if all the pirates have their preferences
      */
-
-    /**
-     * Check if all the pirates have a preference list
-     * @param p List of the pirate
-     * @param l List of the loot
-     * @return true if all the pirats have a preference list else false
-     */
-    private Boolean checkPreference(ArrayList<Pirate> p, ArrayList<Loot> l){
-        for(Pirate pi : p){
-            if(pi.getPreferenceList().size() != l.size()){
-                System.out.println("The pirate "+pi.getName()+" didn't have a preference list or an appropriate preference list - Please check it again");
-                return false;
-            }
-        }
-        return true;
-    }
     private void addPreferenceAndRelationWithInteraction() {
         int choice;
         do {
@@ -132,7 +121,7 @@ public class Controller {
                     addPreference();
                 }
             }
-        } while (choice != 3 || !checkPreference(pirates,listOfLoot));
+        } while (choice != 3);
 
         for (Pirate p : pirates) {
             System.out.println(p);
@@ -292,7 +281,7 @@ public class Controller {
         // Because of the regular expression restriction input
         // this will theoretically never execute
         try{
-            throw new Exception("Pirate not found!");
+            throw new Exception("Pirate " + name + " not found!");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -319,8 +308,8 @@ public class Controller {
      * Read data from file "info.data", convert and save to Java Class
      */
     public void readData() {
-        File file = new File("src/data/info.data");
-
+//        File file = new File("src/data/info.data");
+        File file = new File("src/data/equipage1");
         // initialisation
         pirates = new ArrayList<>();
         listOfLoot = new ArrayList<>();
@@ -389,8 +378,8 @@ public class Controller {
 
             switch (choice) {
                 case 1: {
-//                    algoApproximate(50);
-                    algoOptimal();
+                    algoApproximate(1000);
+//                    algoOptimal();
                     break;
                 }
                 case 2: {
@@ -466,9 +455,9 @@ public class Controller {
                 numberLoot = p.getPreferenceList().get(index).getNumber();
 
                 // If loot "numberLoot" is available then we give it to this pirate
-                if (!listOfLoot.get(numberLoot - 1).isToken()) {
-                    p.setObjectObtained(listOfLoot.get(numberLoot - 1));
-                    listOfLoot.get(numberLoot - 1).setToken(true);
+                if (!listOfLoot.get(numberLoot -1).isToken()) {
+                    p.setObjectObtained(listOfLoot.get(numberLoot -1));
+                    listOfLoot.get(numberLoot -1).setToken(true);
                 }
                 index++;
             }
