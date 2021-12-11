@@ -1,7 +1,8 @@
 package execute;
 
 import controller.Controller;
-import controller.ControllerAuto;
+import java.util.Scanner;
+import model.Util;
 
 /**
  * Classe d'exécution lorsqu'il n'y a pas d'interface graphique
@@ -10,12 +11,24 @@ import controller.ControllerAuto;
  */
 public class Execute {
     public static void main(String[] args) {
-        // Sujet Part I
-//        Controller controller = new Controller();
-//        controller.runWithUserInteraction();
-
-        // Sujet Part II
-        ControllerAuto controller = new ControllerAuto();
-        controller.runWithAutomation();
+        Controller controller = new Controller();
+        Scanner sc = new Scanner(System.in);
+        int choix = 0;
+        do{
+            System.out.println("------MENU------");
+            System.out.println("1 - Projet Part I");
+            System.out.println("2 - Projet Part II");
+            System.out.println("3 - FIN");
+            choix = sc.nextInt();
+            switch (choix){
+                case 1 : controller.runWithUserInteraction();
+                break;
+                case 2 : controller.runWithAutomation();
+                break;
+                default: System.out.println("Choix incorrect");
+            }
+        }while(choix!=3);
+//
+        sc.close();
     }
 }
