@@ -1,4 +1,4 @@
-2pirate(nom_pirate_1).
+pirate(nom_pirate_1).
 pirate(nom_pirate_2).
 pirate(nom_pirate_3).
 pirate(nom_pirate_4).
