@@ -506,8 +506,9 @@ public class Controller {
      */
     public void saveData() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Entrez le chemin du fichier où enregistrer le résultat");
+        System.out.print("Entrez le chemin du fichier où enregistrer le résultat : ");
         String fileName = sc.nextLine();
+        sc.close();
         File file = new File(fileName);
         try {
             FileWriter fileWriter = new FileWriter(file);
@@ -515,6 +516,7 @@ public class Controller {
             for(Pirate p : pirates){
                 fileWriter.write(p.getName() + " : " + p.getObjectObtained() + "\n");
             }
+            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
