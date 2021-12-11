@@ -105,7 +105,12 @@ public class Util {
         ArrayList<Integer> names = new ArrayList<>();
         for (String name : nameArray) {
             // add the last character(transform to int) to arrayList<Integer>
-            names.add(Integer.valueOf(name.substring(name.length() - 1)));
+            StringBuilder sb = new StringBuilder(name);
+            if(name.contains("o")){
+                sb.deleteCharAt(0);
+            }
+//            names.add(Integer.valueOf(name.substring(name.length() - 1)));
+            names.add(Integer.valueOf(sb.toString()));
         }
         return names;
     }

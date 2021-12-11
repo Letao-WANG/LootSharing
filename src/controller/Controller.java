@@ -281,7 +281,7 @@ public class Controller {
         // Because of the regular expression restriction input
         // this will theoretically never execute
         try{
-            throw new Exception("Pirate not found!");
+            throw new Exception("Pirate " + name + " not found!");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -308,8 +308,8 @@ public class Controller {
      * Read data from file "info.data", convert and save to Java Class
      */
     public void readData() {
-        File file = new File("src/data/info.data");
-
+//        File file = new File("src/data/info.data");
+        File file = new File("src/data/equipage1");
         // initialisation
         pirates = new ArrayList<>();
         listOfLoot = new ArrayList<>();
@@ -378,8 +378,8 @@ public class Controller {
 
             switch (choice) {
                 case 1: {
-//                    algoApproximate(50);
-                    algoOptimal();
+                    algoApproximate(1000);
+//                    algoOptimal();
                     break;
                 }
                 case 2: {
@@ -455,9 +455,9 @@ public class Controller {
                 numberLoot = p.getPreferenceList().get(index).getNumber();
 
                 // If loot "numberLoot" is available then we give it to this pirate
-                if (!listOfLoot.get(numberLoot - 1).isToken()) {
-                    p.setObjectObtained(listOfLoot.get(numberLoot - 1));
-                    listOfLoot.get(numberLoot - 1).setToken(true);
+                if (!listOfLoot.get(numberLoot -1).isToken()) {
+                    p.setObjectObtained(listOfLoot.get(numberLoot -1));
+                    listOfLoot.get(numberLoot -1).setToken(true);
                 }
                 index++;
             }
