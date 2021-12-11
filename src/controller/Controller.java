@@ -385,9 +385,11 @@ public class Controller {
                 case 2: {
                     exchangeLootInNumber();
                     System.out.println(Util.calculateCost(pirates));
+                    break;
                 }
                 case 3: {
                     saveData();
+                    break;
                 }
             }
         } while (choice != 4);
@@ -506,15 +508,14 @@ public class Controller {
      */
     public void saveData() {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Entrez le chemin du fichier où enregistrer le résultat : ");
+        System.out.print("Entrez le nom du fichier où enregistrer le résultat : ");
         String fileName = sc.nextLine();
-        sc.close();
         File file = new File(fileName);
         try {
             FileWriter fileWriter = new FileWriter(file);
             fileWriter.write("La solution pour le LootSharing \n");
             for(Pirate p : pirates){
-                fileWriter.write(p.getName() + " : " + p.getObjectObtained() + "\n");
+                fileWriter.write("Pirate " + p.getName() + " : " + "Loot " + p.getObjectObtained() + "\n");
             }
             fileWriter.close();
         } catch (IOException e) {
