@@ -241,9 +241,10 @@ public class Controller {
 
     /**
      * Because we use number to mark pirate instead of character, so we need another method exchangeLoot in number
+     *
      * @see Controller#exchangeLoot()
      */
-    private void exchangeLootInNumber(){
+    private void exchangeLootInNumber() {
         System.out.println("Please fill in the numbers corresponding to the pirates for the loot exchange");
         System.out.println("The first number is : ");
         int firstName = Util.getChoiceInt(numberPirates);
@@ -256,10 +257,11 @@ public class Controller {
 
     /**
      * Exchange the loot between pirates
-     * @param firstName first pirate name
+     *
+     * @param firstName  first pirate name
      * @param secondName second pirate name
      */
-    public void exchangeLootWithPirateName(char firstName, char secondName){
+    public void exchangeLootWithPirateName(char firstName, char secondName) {
         Loot l1 = getPirate(firstName).getObjectObtained();
         Loot l2 = getPirate(secondName).getObjectObtained();
 
@@ -269,6 +271,7 @@ public class Controller {
 
     /**
      * Get the pirate according to the name
+     *
      * @param name pirate name
      * @return pirate
      */
@@ -280,7 +283,7 @@ public class Controller {
         }
         // Because of the regular expression restriction input
         // this will theoretically never execute
-        try{
+        try {
             throw new Exception("Pirate " + name + " not found!");
         } catch (Exception e) {
             e.printStackTrace();
@@ -295,7 +298,7 @@ public class Controller {
     /**
      * Main method of sujet part II
      */
-    public void runWithAutomation(){
+    public void runWithAutomation() {
         // initializer the data to java class, get the pirates without distributing loot
         readData();
         // distribute loots to pirates
@@ -363,7 +366,7 @@ public class Controller {
     /**
      * Enter the menu with user interaction
      */
-    public void menuResolution(){
+    public void menuResolution() {
         int choice;
         do {
             printPirates();
@@ -398,40 +401,42 @@ public class Controller {
     /**
      * Algorithme 1 : Un algorithme d’approximation (naïf) in the sujet
      * exchange loot random to optimiser the cost
+     *
      * @param k number of loop
      */
-    public void algoApproximate(int k){
+    public void algoApproximate(int k) {
         int costOld = Util.calculateCost(pirates);
-        for(int i=0; i<k; i++){
-            int firstPirate = Util.randomInt(numberPirates, 1 );
+        for (int i = 0; i < k; i++) {
+            int firstPirate = Util.randomInt(numberPirates, 1);
             int secondPirate = Util.randomInt(numberPirates, 1, firstPirate);
             exchangeLootWithPirateName(Util.intToChar(firstPirate), Util.intToChar(secondPirate));
 
             // roll back
-            if(Util.calculateCost(pirates) >= costOld){
+            if (Util.calculateCost(pirates) >= costOld) {
                 exchangeLootWithPirateName(Util.intToChar(secondPirate), Util.intToChar(firstPirate));
             }
         }
     }
+
     /**
      * Algorithm 2 : algo more optimal
      * exchange loot random to optimiser the cost
      */
-    public void algoOptimal(){
+    public void algoOptimal() {
         //
         Pirate pirateMostDisliked = getPirateMostDislike(pirates);
-        Loot loot = pirateMostDisliked.getPreferenceList().get(numberPirates-1);
+        Loot loot = pirateMostDisliked.getPreferenceList().get(numberPirates - 1);
         pirateMostDisliked.setObjectObtained(loot);
-        listOfLoot.get(loot.getNumber()-1).setToken(true);
+        listOfLoot.get(loot.getNumber() - 1).setToken(true);
 
         algoNaive();
     }
 
-    public Pirate getPirateMostDislike(ArrayList<Pirate> listPirate){
+    public Pirate getPirateMostDislike(ArrayList<Pirate> listPirate) {
         int numberDislikeMax = 0;
         Pirate res = listPirate.get(0);
-        for(Pirate p : listPirate){
-            if(p.getNumberDislike() > numberDislikeMax){
+        for (Pirate p : listPirate) {
+            if (p.getNumberDislike() > numberDislikeMax) {
                 numberDislikeMax = p.getNumberDislike();
                 res = p;
             }
@@ -439,14 +444,14 @@ public class Controller {
         return res;
     }
 
-    public void optimise(){
+    public void optimise() {
 
     }
 
     /**
      * Distribution the loot
      */
-    public void algoNaive(){
+    public void algoNaive() {
         int numberLoot;
         for (Pirate p : pirates) {
             int index = 0;
@@ -455,9 +460,9 @@ public class Controller {
                 numberLoot = p.getPreferenceList().get(index).getNumber();
 
                 // If loot "numberLoot" is available then we give it to this pirate
-                if (!listOfLoot.get(numberLoot -1).isToken()) {
-                    p.setObjectObtained(listOfLoot.get(numberLoot -1));
-                    listOfLoot.get(numberLoot -1).setToken(true);
+                if (!listOfLoot.get(numberLoot - 1).isToken()) {
+                    p.setObjectObtained(listOfLoot.get(numberLoot - 1));
+                    listOfLoot.get(numberLoot - 1).setToken(true);
                 }
                 index++;
             }
@@ -467,7 +472,7 @@ public class Controller {
     /**
      * Display the information of pirates
      */
-    public void printPirates(){
+    public void printPirates() {
         for (Pirate p : pirates) {
             System.out.println(p);
         }
@@ -476,7 +481,7 @@ public class Controller {
     /**
      * Display the information of loots
      */
-    public void printLoots(){
+    public void printLoots() {
         for (Pirate p : pirates) {
             System.out.println("The pirate " + p.getName() + " has the loot : " + p.getObjectObtained() + "\n");
         }
@@ -485,17 +490,17 @@ public class Controller {
     /**
      * Display the information of cost
      */
-    public void printCost(){
+    public void printCost() {
         System.out.println("The number of jealous pirates is : " + Util.calculateCost(pirates) + "\n");
     }
 
     /**
      * Add loots to the pirates, use in testing
      */
-    public void addLoot(){
+    public void addLoot() {
         int[] numbers = {1, 3, 2, 4};
         int ind = 0;
-        for (Pirate p : pirates){
+        for (Pirate p : pirates) {
             p.setObjectObtained(new Loot(numbers[ind]));
             ind++;
         }
@@ -503,19 +508,21 @@ public class Controller {
 
     /**
      * Save the data into file
-     *
+     * <p>
      * Stan
      */
     public void saveData() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Entrez le nom du fichier où enregistrer le résultat : ");
-        String fileName = sc.nextLine();
+        String fileName = "src/data/" + sc.nextLine();
         File file = new File(fileName);
         try {
             FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write("La solution pour le LootSharing \n");
-            for(Pirate p : pirates){
-                fileWriter.write("Pirate " + p.getName() + " : " + "Loot " + p.getObjectObtained() + "\n");
+            fileWriter.write("Cout=" + Util.calculateCost(pirates) + "\n");
+            for (Pirate p : pirates) {
+                System.out.println("Name pirate : " + p.getName());
+                // ici -48 parce que il faut transforme la format
+                fileWriter.write(p.getName()-48 + ":o" + p.getObjectObtained() + "\n");
             }
             fileWriter.close();
         } catch (IOException e) {
