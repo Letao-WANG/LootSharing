@@ -91,13 +91,17 @@ public class Controller {
             listOfLoot.add(l);
         }
         System.out.println(numberPirates + " Loots have been initialized \n");
-
-        //Default preference list for the pirates
-        for (Pirate p : pirates) {
-            p.setPreferenceList(listOfLoot);
-        }
     }
 
+    private Boolean checkPreference(ArrayList<Pirate> pi, ArrayList<Loot> l){
+        for(Pirate p : pi){
+            if(p.getPreferenceList().size() != l.size()) {
+                System.out.println("The pirate " + p.getName() + " didn't have a preference list");
+                return false;
+            }
+        }
+        return true;
+    }
     /**
      * Menu with 2 options : Add a relation & Add a preference      -
      * Check if all the pirates have their preferences
@@ -121,7 +125,7 @@ public class Controller {
                     addPreference();
                 }
             }
-        } while (choice != 3);
+        } while (choice != 3 || !checkPreference(pirates,listOfLoot));
 
         for (Pirate p : pirates) {
             System.out.println(p);
