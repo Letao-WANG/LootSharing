@@ -76,6 +76,11 @@ public class Pirate {
         System.out.println();
     }
 
+    /**
+     * Method that seek for the position of the loot in the pirate's preference list
+     * @param loot Take a loot
+     * @return The index of the loot in the pirate's preference list
+     */
     public int getPrePriority(Loot loot){
         int index = 1;
         for(Loot l : preferenceList){
@@ -93,6 +98,10 @@ public class Pirate {
         return -1;
     }
 
+    /**
+     * Method that confirms if the pirate will be jealous according to the preference of the others pirates that he dislkes
+     * @return true if he will be jealous else false
+     */
     public boolean getJealous(){
         for(Pirate p : pirateDislike){
             if(this.getPrePriority(p.getObjectObtained()) < this.getPrePriority(lootObtained)){
