@@ -86,7 +86,7 @@ public class Util {
     public static int calculateCost(ArrayList<Pirate> pirates){
         int cost = 0;
         for(Pirate p : pirates){
-            if(p.getJealous()){
+            if(p.getJealous() != null){
                 cost++;
             }
         }

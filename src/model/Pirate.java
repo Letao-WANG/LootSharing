@@ -5,16 +5,15 @@ import java.util.ArrayList;
 /**
  *  Class Pirate
  *
- *  name : name of this pirate
- *  pirateDislike : list of pirates that this pirate dislike
- *  preferenceList : list of objects that this pirate prefers
- *  objectObtained : the object that this pirate has obtained by algo or solution
+ *
  */
 public class Pirate {
+    /** name of pirate */
     private char name; // Name of the pirate
     private ArrayList<Pirate> pirateDislike; // List of the pirate's enemies
     private ArrayList<Loot> preferenceList; // Pirate preferences list
     private Loot lootObtained = null; // Loot given to the pirate
+    private int priority;
 
     public Pirate(){ }
 
@@ -81,6 +80,25 @@ public class Pirate {
      * @param loot Take a loot
      * @return The index of the loot in the pirate's preference list
      */
+    public boolean setPrePriority(Loot loot){
+        int index = 1;
+        for(Loot l : preferenceList){
+            if(l.getNumber() == loot.getNumber()){
+                priority = index;
+                return true;
+            }
+            index++;
+        }
+        // Loot obtained doesn't exist in the preferenceList
+        try {
+            throw new Exception("preference : " + preferenceList + "\nLoot " + loot.getNumber() + " obtained doesn't exist in the preferenceList.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        priority = -1;
+        return false;
+    }
+
     public int getPrePriority(Loot loot){
         int index = 1;
         for(Loot l : preferenceList){
@@ -98,17 +116,32 @@ public class Pirate {
         return -1;
     }
 
+//    public boolean couldReducePriority(){
+//        int numberLoot = getPrePriority(lootObtained);
+//        for (Pirate pirate : pirateDislike){
+//
+//        }
+//    }
+
+    public Loot getLootObtained() {
+        return lootObtained;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
     /**
      * Method that confirms if the pirate will be jealous according to the preference of the others pirates that he dislkes
      * @return true if he will be jealous else false
      */
-    public boolean getJealous(){
+    public Pirate getJealous(){
         for(Pirate p : pirateDislike){
             if(this.getPrePriority(p.getObjectObtained()) < this.getPrePriority(lootObtained)){
-                return true;
+                return p;
             }
         }
-        return false;
+        return null;
     }
 
     /**
@@ -167,6 +200,7 @@ public class Pirate {
      */
     public void setObjectObtained(Loot lootObtained) {
         this.lootObtained = lootObtained;
+        setPrePriority(lootObtained);
     }
 
     /**
@@ -187,7 +221,7 @@ public class Pirate {
             if(lootObtained != null) {
                 res += "Pirate got " + "loot " + lootObtained.getNumber() + ", ";
                 res += "Pirate is ";
-                res += (getJealous()) ? "jealous" : "not jealous";
+                res += (getJealous() != null) ? "jealous to " + getJealous().getName() : "not jealous";
                 res += "\n";
             }
         }

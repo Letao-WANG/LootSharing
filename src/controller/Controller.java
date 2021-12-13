@@ -8,8 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Responsible for storing and manipulating Pirates data, the program mainly runs in this Class
@@ -93,15 +92,16 @@ public class Controller {
         System.out.println(numberPirates + " Loots have been initialized \n");
     }
 
-    private Boolean checkPreference(ArrayList<Pirate> pi, ArrayList<Loot> l){
-        for(Pirate p : pi){
-            if(p.getPreferenceList().size() != l.size()) {
+    private Boolean checkPreference(ArrayList<Pirate> pi, ArrayList<Loot> l) {
+        for (Pirate p : pi) {
+            if (p.getPreferenceList().size() != l.size()) {
                 System.out.println("The pirate " + p.getName() + " didn't have a preference list");
                 return false;
             }
         }
         return true;
     }
+
     /**
      * Menu with 2 options : Add a relation & Add a preference      -
      * Check if all the pirates have their preferences
@@ -125,7 +125,7 @@ public class Controller {
                     addPreference();
                 }
             }
-        } while (choice != 3 || !checkPreference(pirates,listOfLoot));
+        } while (choice != 3 || !checkPreference(pirates, listOfLoot));
 
         for (Pirate p : pirates) {
             System.out.println(p);
@@ -245,9 +245,10 @@ public class Controller {
 
     /**
      * Because we use number to mark pirate instead of character, so we need another method exchangeLoot in number
+     *
      * @see Controller#exchangeLoot()
      */
-    private void exchangeLootInNumber(){
+    private void exchangeLootInNumber() {
         System.out.println("Please fill in the numbers corresponding to the pirates for the loot exchange");
         System.out.println("The first number is : ");
         int firstName = Util.getChoiceInt(numberPirates);
@@ -260,10 +261,11 @@ public class Controller {
 
     /**
      * Exchange the loot between pirates
-     * @param firstName first pirate name
+     *
+     * @param firstName  first pirate name
      * @param secondName second pirate name
      */
-    public void exchangeLootWithPirateName(char firstName, char secondName){
+    public void exchangeLootWithPirateName(char firstName, char secondName) {
         Loot l1 = getPirate(firstName).getObjectObtained();
         Loot l2 = getPirate(secondName).getObjectObtained();
 
@@ -273,6 +275,7 @@ public class Controller {
 
     /**
      * Get the pirate according to the name
+     *
      * @param name pirate name
      * @return pirate
      */
@@ -284,7 +287,7 @@ public class Controller {
         }
         // Because of the regular expression restriction input
         // this will theoretically never execute
-        try{
+        try {
             throw new Exception("Pirate " + name + " not found!");
         } catch (Exception e) {
             e.printStackTrace();
@@ -299,11 +302,12 @@ public class Controller {
     /**
      * Main method of sujet part II
      */
-    public void runWithAutomation(){
+    public void runWithAutomation() {
         // initializer the data to java class, get the pirates without distributing loot
         readData();
         // distribute loots to pirates
         algoNaive();
+//        algoOptimal();
         // enter the menu
         menuResolution();
     }
@@ -367,7 +371,7 @@ public class Controller {
     /**
      * Enter the menu with user interaction
      */
-    public void menuResolution(){
+    public void menuResolution() {
         int choice;
         do {
             printPirates();
@@ -382,8 +386,13 @@ public class Controller {
 
             switch (choice) {
                 case 1: {
-                    algoApproximate(1000);
+//                    algoApproximate(10000);
 //                    algoOptimal();
+                    randomAlgo(pirates);
+//                    reduceLootPriority(pirates, pirates.get(8));
+//                    for (int i = 0; i < 1000; i++) {
+//                        algoTest();
+//                    }
                     break;
                 }
                 case 2: {
@@ -402,40 +411,170 @@ public class Controller {
     /**
      * Algorithme 1 : Un algorithme d’approximation (naïf) in the sujet
      * exchange loot random to optimiser the cost
+     *
      * @param k number of loop
      */
-    public void algoApproximate(int k){
+    public void algoApproximate(int k) {
         int costOld = Util.calculateCost(pirates);
-        for(int i=0; i<k; i++){
-            int firstPirate = Util.randomInt(numberPirates-1, 0 );
-            int secondPirate = Util.randomInt(numberPirates-1, 0, firstPirate);
-            exchangeLootWithPirateName(Util.intToChar(firstPirate), Util.intToChar(secondPirate));
+        for (int i = 0; i < k; i++) {
+            int firstNumber = Util.randomInt(numberPirates - 1, 0);
+            Pirate firstPirate = getPirate(Util.intToChar(firstNumber));
+            Pirate secondPirate = firstPirate.getPirateDislike().get(Util.randomInt(firstPirate.getNumberDislike() - 1, 0));
+            exchangeLootWithPirateName(firstPirate.getName(), secondPirate.getName());
 
             // roll back
-            if(Util.calculateCost(pirates) >= costOld){
-                exchangeLootWithPirateName(Util.intToChar(secondPirate), Util.intToChar(firstPirate));
+            if (Util.calculateCost(pirates) > costOld) {
+                exchangeLootWithPirateName(secondPirate.getName(), firstPirate.getName());
             }
         }
     }
+
+    public void algoApproximateTest(int k) {
+        int costOld = Util.calculateCost(pirates);
+        for (int i = 0; i < k; i++) {
+            ArrayList<Pirate> origin = new ArrayList<>(pirates);
+            Pirate firstPirate = null;
+            Pirate secondPirate = null;
+            for (int j = 0; j < 2; j++) {
+                int firstNumber = Util.randomInt(numberPirates - 1, 0);
+                firstPirate = getPirate(Util.intToChar(firstNumber));
+                secondPirate = firstPirate.getPirateDislike().get(Util.randomInt(firstPirate.getNumberDislike() - 1, 0));
+                exchangeLootWithPirateName(firstPirate.getName(), secondPirate.getName());
+                System.out.println("try to exchange " + firstPirate.getName() + " and " + secondPirate.getName());
+            }
+
+            // roll back
+            if (Util.calculateCost(pirates) > costOld) {
+                System.out.println("roll back");
+                pirates = new ArrayList<>(origin);
+            }
+        }
+    }
+
+    public void randomAlgo(ArrayList<Pirate> pirates) {
+        while(Util.calculateCost(pirates) != 0){
+//            System.out.println("Cost : "+Util.calculateCost(pirates));
+            int firstPirate = Util.randomInt(pirates.size() - 1, 0);
+            Pirate p1 = pirates.get(firstPirate);
+            Pirate p2 = p1.getPirateDislike().get(Util.randomInt(p1.getNumberDislike() - 1, 0));
+
+            Loot l1 = p1.getObjectObtained();
+            Loot l2 = p2.getObjectObtained();
+
+            p1.setObjectObtained(l2);
+            p2.setObjectObtained(l1);
+        }
+    }
+
+    public void algoTest() {
+
+        ArrayList<Pirate> origin = new ArrayList<>(pirates);
+
+        int costOld = Util.calculateCost(origin);
+        char name1 = 0;
+        char name2 = 0;
+        for (int i = 0; i < 10; i++) {
+            if (Util.calculateCost(origin) == 0) {
+                break;
+            }
+            ArrayList<Pirate> listPirate = new ArrayList<>();
+            for (Pirate p : origin) {
+                if (p.getJealous() != null) {
+                    listPirate.add(p);
+                }
+            }
+            Pirate pirateRandom = listPirate.get(Util.randomInt(listPirate.size() - 1, 0));
+            name1 = pirateRandom.getName();
+            name2 = pirateRandom.getJealous().getName();
+            exchangeLootWithPirateName(name1, name2);
+        }
+
+        // applique
+        if (Util.calculateCost(origin) <= costOld) {
+            pirates = new ArrayList<>(origin);
+        }
+    }
+
     /**
      * Algorithm 2 : algo more optimal
      * exchange loot random to optimiser the cost
      */
-    public void algoOptimal(){
-        //
-        Pirate pirateMostDisliked = getPirateMostDislike(pirates);
-        Loot loot = pirateMostDisliked.getPreferenceList().get(numberPirates-1);
-        pirateMostDisliked.setObjectObtained(loot);
-        listOfLoot.get(loot.getNumber()-1).setToken(true);
-
+    public void algoOptimal() {
+        ArrayList<Pirate> newPirates = new ArrayList<>();
+        ArrayList<Pirate> toAddPirates = new ArrayList<>();
+        // optional
         algoNaive();
+        for (Pirate pirate : pirates) {
+            if (pirate.getJealous() == null) {
+                newPirates.add(pirate);
+            } else {
+                toAddPirates.add(pirate);
+            }
+        }
+
+        while (toAddPirates.size() > 0) {
+            System.out.println("rdy to random, newPirates : " + newPirates);
+            randomAlgo(newPirates);
+            if (addPirateToNewPirate(newPirates, toAddPirates.get(0))) {
+                toAddPirates.remove(0);
+            }
+//            printPirates();
+        }
+        System.out.println("Algo finished!");
     }
 
-    public Pirate getPirateMostDislike(ArrayList<Pirate> listPirate){
+    public boolean addPirateToNewPirate(ArrayList<Pirate> newPirates, Pirate pirate) {
+        newPirates.add(pirate);
+        HashSet<Integer> lootSet = new HashSet<>();
+        for (int i = 1; i <= 10; i++) {
+            lootSet.add(i);
+        }
+        for (int i = 0; i < newPirates.size(); i++) {
+            lootSet.remove(newPirates.get(i).getLootObtained().getNumber());
+        }
+        // lootSet is set of left loot
+        for (int number : lootSet) {
+            pirate.setObjectObtained(listOfLoot.get(number - 1));
+            if (pirate.getJealous() == null) {
+                return true;
+            }
+        }
+        newPirates.remove(newPirates.size() - 1);
+        return false;
+    }
+
+    public boolean reduceLootPriority(ArrayList<Pirate> pirates, Pirate pirate) {
+        if (pirate == null) {
+            return false;
+        }
+        // if the pirate has the last priority loot
+        if (pirate.getPriority() == pirate.getPreferenceList().size() - 1) {
+            return false;
+        }
+        // get the new loot to be given
+        Loot loot = listOfLoot.get(pirate.getPriority() + 1);
+        if (!loot.isToken()) {
+            pirate.setObjectObtained(loot);
+            loot.setToken(true);
+            return true;
+        } else {
+            Pirate nextPirate = null;
+            for (Pirate p : this.pirates) {
+                if (p.getObjectObtained().getNumber() == loot.getNumber()) {
+                    nextPirate = p;
+                }
+            }
+            return reduceLootPriority(pirates, nextPirate);
+        }
+
+
+    }
+
+    public Pirate getPirateMostDislike(ArrayList<Pirate> listPirate) {
         int numberDislikeMax = 0;
         Pirate res = listPirate.get(0);
-        for(Pirate p : listPirate){
-            if(p.getNumberDislike() > numberDislikeMax){
+        for (Pirate p : listPirate) {
+            if (p.getNumberDislike() > numberDislikeMax) {
                 numberDislikeMax = p.getNumberDislike();
                 res = p;
             }
@@ -443,14 +582,14 @@ public class Controller {
         return res;
     }
 
-    public void optimise(){
+    public void optimise() {
 
     }
 
     /**
      * Distribution the loot
      */
-    public void algoNaive(){
+    public void algoNaive() {
         int numberLoot;
         for (Pirate p : pirates) {
             int index = 0;
@@ -459,11 +598,31 @@ public class Controller {
                 numberLoot = p.getPreferenceList().get(index).getNumber();
 
                 // If loot "numberLoot" is available then we give it to this pirate
-                if (!listOfLoot.get(numberLoot -1).isToken()) {
-                    p.setObjectObtained(listOfLoot.get(numberLoot -1));
-                    listOfLoot.get(numberLoot -1).setToken(true);
+                if (!listOfLoot.get(numberLoot - 1).isToken()) {
+                    p.setObjectObtained(listOfLoot.get(numberLoot - 1));
+                    listOfLoot.get(numberLoot - 1).setToken(true);
+//                    p.setPrePriority(listOfLoot.get(numberLoot -1));
                 }
                 index++;
+            }
+        }
+    }
+
+    public void algoNaive2() {
+        int numberLoot;
+        for (Pirate p : pirates) {
+            int index = p.getPreferenceList().size()-1;
+            // Check if the pirate have the loot
+            while (p.getObjectObtained() == null) {
+                numberLoot = p.getPreferenceList().get(index).getNumber();
+
+                // If loot "numberLoot" is available then we give it to this pirate
+                if (!listOfLoot.get(numberLoot - 1).isToken()) {
+                    p.setObjectObtained(listOfLoot.get(numberLoot - 1));
+                    listOfLoot.get(numberLoot - 1).setToken(true);
+//                    p.setPrePriority(listOfLoot.get(numberLoot -1));
+                }
+                index--;
             }
         }
     }
@@ -471,7 +630,7 @@ public class Controller {
     /**
      * Display the information of pirates
      */
-    public void printPirates(){
+    public void printPirates() {
         for (Pirate p : pirates) {
             System.out.println(p);
         }
@@ -480,7 +639,7 @@ public class Controller {
     /**
      * Display the information of loots
      */
-    public void printLoots(){
+    public void printLoots() {
         for (Pirate p : pirates) {
             System.out.println("The pirate " + p.getName() + " has the loot : " + p.getObjectObtained() + "\n");
         }
@@ -489,17 +648,17 @@ public class Controller {
     /**
      * Display the information of cost
      */
-    public void printCost(){
+    public void printCost() {
         System.out.println("The number of jealous pirates is : " + Util.calculateCost(pirates) + "\n");
     }
 
     /**
      * Add loots to the pirates, use in testing
      */
-    public void addLoot(){
+    public void addLoot() {
         int[] numbers = {1, 3, 2, 4};
         int ind = 0;
-        for (Pirate p : pirates){
+        for (Pirate p : pirates) {
             p.setObjectObtained(new Loot(numbers[ind]));
             ind++;
         }
@@ -507,18 +666,18 @@ public class Controller {
 
     /**
      * Save the data into file
-     *
+     * <p>
      * Stan
      */
     public void saveData() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Entrez le nom du fichier où enregistrer le résultat : ");
         String fileName = sc.nextLine();
-        File file = new File(fileName);
+        File file = new File("src/data/"+fileName);
         try {
             FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write("La solution pour le LootSharing \n");
-            for(Pirate p : pirates){
+            fileWriter.write("Cout:"+Util.calculateCost(pirates)+"\n");
+            for (Pirate p : pirates) {
                 fileWriter.write("Pirate " + p.getName() + " : " + "Loot " + p.getObjectObtained() + "\n");
             }
             fileWriter.close();
