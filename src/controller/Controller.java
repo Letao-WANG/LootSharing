@@ -317,7 +317,7 @@ public class Controller {
      */
     public void readData() {
 //        File file = new File("src/data/info.data");
-        File file = new File("src/data/equipage1");
+        File file = new File("src/data/equipage3");
         // initialisation
         pirates = new ArrayList<>();
         listOfLoot = new ArrayList<>();
@@ -388,7 +388,7 @@ public class Controller {
                 case 1: {
 //                    algoApproximate(10000);
 //                    algoOptimal();
-                    randomAlgo(pirates);
+                    randomAlgo(pirates, 0);
 //                    reduceLootPriority(pirates, pirates.get(8));
 //                    for (int i = 0; i < 1000; i++) {
 //                        algoTest();
@@ -451,9 +451,17 @@ public class Controller {
         }
     }
 
-    public void randomAlgo(ArrayList<Pirate> pirates) {
-        while(Util.calculateCost(pirates) != 0){
-//            System.out.println("Cost : "+Util.calculateCost(pirates));
+    public void algoRandomGeneral(ArrayList<Pirate> pirates){
+
+    }
+
+    public void randomAlgo(ArrayList<Pirate> pirates, int minCost) {
+        System.out.println("Try to cost " + minCost);
+        int count = 0;
+        while(Util.calculateCost(pirates) != minCost){
+            if(count>10000000){
+                break;
+            }
             int firstPirate = Util.randomInt(pirates.size() - 1, 0);
             Pirate p1 = pirates.get(firstPirate);
             Pirate p2 = p1.getPirateDislike().get(Util.randomInt(p1.getNumberDislike() - 1, 0));
@@ -463,6 +471,11 @@ public class Controller {
 
             p1.setObjectObtained(l2);
             p2.setObjectObtained(l1);
+            count++;
+        }
+        if(count>10000000){
+            System.out.println("It's impossible to cost " + minCost);
+            randomAlgo(pirates, minCost+1);
         }
     }
 
@@ -514,7 +527,7 @@ public class Controller {
 
         while (toAddPirates.size() > 0) {
             System.out.println("rdy to random, newPirates : " + newPirates);
-            randomAlgo(newPirates);
+            randomAlgo(newPirates, 0);
             if (addPirateToNewPirate(newPirates, toAddPirates.get(0))) {
                 toAddPirates.remove(0);
             }
