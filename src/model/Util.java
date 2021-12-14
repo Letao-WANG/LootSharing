@@ -20,19 +20,19 @@ public class Util {
      * @param maxIntAllowed Maximum number allowed
      * @return The number in Integer
      */
-    public static int getChoiceInt(int maxIntAllowed) {
+    public static int getChoiceInt(int maxIntAllowed, Scanner sc) {
         Pattern pattern = Pattern.compile(getIntRegex(maxIntAllowed, true), Pattern.CASE_INSENSITIVE);
-        return Integer.parseInt(getInput(pattern));
+        return Integer.parseInt(getInput(pattern, sc));
     }
 
     /**
      * @param exception number not allowed inputting
-     * @see Util#getChoiceInt(int)
+     * @see Util#getChoiceInt(int, Scanner)
      */
-    public static int getChoiceInt(int maxIntAllowed, int exception) {
+    public static int getChoiceInt(int maxIntAllowed, Scanner sc, int exception) {
         int number;
         do {
-            number = getChoiceInt(maxIntAllowed);
+            number = getChoiceInt(maxIntAllowed, sc);
         } while (number == exception);
         return number;
     }
@@ -43,8 +43,7 @@ public class Util {
      * @param maxCharAllowed The limit of the character ( A - maxCharAllowed )
      * @return The character typed by the user
      */
-    public static char getChoiceChar(char maxCharAllowed) {
-        Scanner sc = new Scanner(System.in);
+    public static char getChoiceChar(char maxCharAllowed, Scanner sc) {
         char c = Character.toUpperCase(sc.next().charAt(0));
         while (!(c >= 'A' && c <= maxCharAllowed)) {
             System.out.println("Please input the appropriate character : ( A - " + maxCharAllowed + " )");
@@ -55,12 +54,12 @@ public class Util {
 
     /**
      * @param exception char not allowed inputting
-     * @see Util#getChoiceChar(char)
+     * @see Util#getChoiceChar(char, Scanner)
      */
-    public static char getChoiceChar(char maxCharAllowed, char exception) {
+    public static char getChoiceChar(char maxCharAllowed, Scanner sc, char exception) {
         char c;
         do {
-            c = getChoiceChar(maxCharAllowed);
+            c = getChoiceChar(maxCharAllowed, sc);
         } while (c == exception);
         return c;
     }
@@ -71,9 +70,9 @@ public class Util {
      * @param maxCharAllowed the max character allowed
      * @return e.g., A 1 2 3 when there are 3 pirates, maxCharAllowed is 'C'
      */
-    public static String getInputPreference(char maxCharAllowed) {
+    public static String getInputPreference(char maxCharAllowed, Scanner sc) {
         Pattern pattern = Pattern.compile(getPreferenceRegex(maxCharAllowed), Pattern.CASE_INSENSITIVE);
-        return getInput(pattern);
+        return getInput(pattern, sc);
     }
 
     /**
@@ -169,7 +168,7 @@ public class Util {
      *
      * @param maxIntAllowed biggest number allowed, value should be 1 to 26
      * @return regular expression
-     * @see Util#getChoiceInt(int)
+     * @see Util#getChoiceInt(int, Scanner)
      */
     private static String getIntRegex(int maxIntAllowed, boolean matchExactly) {
         String regex = (matchExactly) ? "^" : "";
@@ -189,11 +188,10 @@ public class Util {
      *
      * @param pattern regular expression pattern, based for verifying the input of user
      * @return the value that the user typed
-     * @see Util#getInputPreference(char)
+     * @see Util#getInputPreference(char, Scanner)
      * @see Util#getPreferenceRegex(char)
      */
-    private static String getInput(Pattern pattern) {
-        Scanner sc = new Scanner(System.in);
+    private static String getInput(Pattern pattern, Scanner sc) {
         String inputText = sc.nextLine();
         boolean match;
         match = pattern.matcher(inputText).find();

@@ -16,6 +16,8 @@ import java.util.*;
 
 public class Controller {
     private static final int MAXPIRATES = 26;
+    private Scanner scanner;
+
     private ArrayList<Pirate> pirates;
     private ArrayList<Loot> listOfLoot;
 
@@ -23,6 +25,7 @@ public class Controller {
     private char maxCharAllowed;
 
     public Controller() {
+        scanner = new Scanner(System.in);
     }
 
     /**
@@ -68,7 +71,7 @@ public class Controller {
     private void initializationWithInteraction() {
         System.out.println("Welcome to Loot sharing !");
         System.out.println("Please enter the number of pirates: ");
-        numberPirates = Util.getChoiceInt(MAXPIRATES);
+        numberPirates = Util.getChoiceInt(MAXPIRATES, scanner);
         maxCharAllowed = (char) ('A' + numberPirates - 1);
         System.out.println();
 
@@ -114,7 +117,7 @@ public class Controller {
             System.out.println("1) ajouter une relation;");
             System.out.println("2) ajouter des préférences;");
             System.out.println("3) fin");
-            choice = Util.getChoiceInt(3);
+            choice = Util.getChoiceInt(3, scanner);
 
             switch (choice) {
                 case 1: {
@@ -163,7 +166,7 @@ public class Controller {
             System.out.println("1) echanger 2 loots;");
             System.out.println("2) Afficher le coût");
             System.out.println("3) fin");
-            option = Util.getChoiceInt(3);
+            option = Util.getChoiceInt(3, scanner);
             switch (option) {
                 case 1: {
                     exchangeLoot();
@@ -194,9 +197,9 @@ public class Controller {
         System.out.println("Le pirate _ ne s’aime pas le pirate _ ");
         System.out.println("Please fill in the characters corresponding to the pirates");
         System.out.println("The first character is : ");
-        char firstName = Util.getChoiceChar(maxCharAllowed);
+        char firstName = Util.getChoiceChar(maxCharAllowed, scanner);
         System.out.println("The second character is : ");
-        char secondName = Util.getChoiceChar(maxCharAllowed, firstName);
+        char secondName = Util.getChoiceChar(maxCharAllowed, scanner, firstName);
 
         // Puts the pirate A in the pirate B's enemies list ( same for the A )
         getPirate(firstName).addPirateDislike(getPirate(secondName));
@@ -215,7 +218,7 @@ public class Controller {
             System.out.print(i + " ");
         }
         System.out.println("\n(Veillez à bien séparer les informations par (au moins un) espace)");
-        String inputText = Util.getInputPreference(maxCharAllowed);
+        String inputText = Util.getInputPreference(maxCharAllowed, scanner);
         Pirate pirateChosen = getPirate(Character.toUpperCase(inputText.charAt(0)));
         ArrayList<Loot> listPreferences = new ArrayList<>();
         for (int i = 1; i <= numberPirates; i++) {
@@ -235,9 +238,9 @@ public class Controller {
         // Ask the user which pirates exchange their loot
         System.out.println("Please fill in the characters corresponding to the pirates");
         System.out.println("The first character is : ");
-        char firstName = Util.getChoiceChar(maxCharAllowed);
+        char firstName = Util.getChoiceChar(maxCharAllowed, scanner);
         System.out.println("The second character is : ");
-        char secondName = Util.getChoiceChar(maxCharAllowed, firstName);
+        char secondName = Util.getChoiceChar(maxCharAllowed, scanner, firstName);
 
         // Exchange the loot
         exchangeLootWithPirateName(firstName, secondName);
@@ -251,9 +254,9 @@ public class Controller {
     private void exchangeLootInNumber() {
         System.out.println("Please fill in the numbers corresponding to the pirates for the loot exchange");
         System.out.println("The first number is : ");
-        int firstName = Util.getChoiceInt(numberPirates);
+        int firstName = Util.getChoiceInt(numberPirates, scanner);
         System.out.println("The second number is : ");
-        int secondName = Util.getChoiceInt(numberPirates, firstName);
+        int secondName = Util.getChoiceInt(numberPirates, scanner, firstName);
 
         // Exchange the loot
         exchangeLootWithPirateName(Util.intToChar(firstName), Util.intToChar(secondName));
@@ -307,7 +310,6 @@ public class Controller {
         readData();
         // distribute loots to pirates
         algoNaive();
-//        algoOptimal();
         // enter the menu
         menuResolution();
     }
@@ -317,7 +319,7 @@ public class Controller {
      */
     public void readData() {
 //        File file = new File("src/data/info.data");
-        File file = new File("src/data/equipage3");
+        File file = new File("src/data/equipage2");
         // initialisation
         pirates = new ArrayList<>();
         listOfLoot = new ArrayList<>();
@@ -382,17 +384,11 @@ public class Controller {
             System.out.println("2) résolution manuelle ;");
             System.out.println("3) sauvegarde ;");
             System.out.println("4) fin");
-            choice = Util.getChoiceInt(4);
+            choice = Util.getChoiceInt(4, scanner);
 
             switch (choice) {
                 case 1: {
-//                    algoApproximate(10000);
-//                    algoOptimal();
-                    randomAlgo(pirates, 0);
-//                    reduceLootPriority(pirates, pirates.get(8));
-//                    for (int i = 0; i < 1000; i++) {
-//                        algoTest();
-//                    }
+                    algoOptimal(0);
                     break;
                 }
                 case 2: {
@@ -412,21 +408,40 @@ public class Controller {
      * Algorithme 1 : Un algorithme d’approximation (naïf) in the sujet
      * exchange loot random to optimiser the cost
      *
-     * @param k number of loop
      */
-    public void algoApproximate(int k) {
+    public void algoOptimal(int cost) {
+        int countLimit = 1000000;
         int costOld = Util.calculateCost(pirates);
-        for (int i = 0; i < k; i++) {
+        int count = 0;
+        while(Util.calculateCost(pirates) != cost){
+            if(count == countLimit){
+                break;
+            }
             int firstNumber = Util.randomInt(numberPirates - 1, 0);
             Pirate firstPirate = getPirate(Util.intToChar(firstNumber));
             Pirate secondPirate = firstPirate.getPirateDislike().get(Util.randomInt(firstPirate.getNumberDislike() - 1, 0));
             exchangeLootWithPirateName(firstPirate.getName(), secondPirate.getName());
 
             // roll back
-            if (Util.calculateCost(pirates) > costOld) {
+            int diff = Util.calculateCost(pirates) - costOld;
+            if (valueFunction(diff)) {
                 exchangeLootWithPirateName(secondPirate.getName(), firstPirate.getName());
             }
+            count++;
         }
+        if(count == countLimit){
+            algoOptimal(cost+1);
+        }
+    }
+
+    public boolean valueFunction(int diff){
+        double possibility = sigmod(diff);
+        double possRandom = Math.random();
+        return possibility > possRandom;
+    }
+
+    public double sigmod(double z){
+        return 1/(1+Math.exp(-2*z));
     }
 
     public void algoApproximateTest(int k) {
@@ -451,15 +466,52 @@ public class Controller {
         }
     }
 
-    public void algoRandomGeneral(ArrayList<Pirate> pirates){
+    public void violentAlgo(ArrayList<Pirate> pirates){
 
     }
 
-    public void randomAlgo(ArrayList<Pirate> pirates, int minCost) {
-        System.out.println("Try to cost " + minCost);
+    public void randomAlgo2(ArrayList<Pirate> pirates, int minCost) {
+        System.out.println("Trying to find the solution with cost " + minCost + ", please wait...");
         int count = 0;
+        int countLimit = 10000000;
         while(Util.calculateCost(pirates) != minCost){
-            if(count>10000000){
+            if(count>countLimit){
+                break;
+            }
+
+            Pirate p1 = null;
+            for(Pirate pirate : pirates){
+                if(pirate.getJealous() != null){
+                    p1 = pirate;
+                }
+            }
+            if(p1 == null){
+                System.out.println("Success to find the solution with count : " + count);
+                break;
+            }
+            Pirate p2 = p1.getPirateDislike().get(Util.randomInt(p1.getNumberDislike() - 1, 0));
+
+            Loot l1 = p1.getObjectObtained();
+            Loot l2 = p2.getObjectObtained();
+
+            p1.setObjectObtained(l2);
+            p2.setObjectObtained(l1);
+            count++;
+        }
+        if(count>countLimit){
+            System.out.println("It's impossible to find the solution with cost " + minCost);
+            randomAlgo(pirates, minCost+1);
+        } else {
+            System.out.println("Success to find the solution with count : " + count);
+        }
+    }
+
+    public void randomAlgo(ArrayList<Pirate> pirates, int minCost) {
+        System.out.println("Trying to find the solution with cost " + minCost + ", please wait...");
+        int count = 0;
+        int countLimit = 10000000;
+        while(Util.calculateCost(pirates) != minCost){
+            if(count>countLimit){
                 break;
             }
             int firstPirate = Util.randomInt(pirates.size() - 1, 0);
@@ -473,9 +525,11 @@ public class Controller {
             p2.setObjectObtained(l1);
             count++;
         }
-        if(count>10000000){
-            System.out.println("It's impossible to cost " + minCost);
+        if(count>countLimit){
+            System.out.println("It's impossible to find the solution with cost " + minCost);
             randomAlgo(pirates, minCost+1);
+        } else {
+            System.out.println("Success to find the solution with count : " + count);
         }
     }
 
