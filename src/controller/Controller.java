@@ -186,6 +186,7 @@ public class Controller {
                 System.out.println("The pirate " + p.getName() + " has the loot : " + p.getObjectObtained() + "\n");
             }
         } while (option != 3);
+        scanner.close();
         System.out.println("END");
     }
 
@@ -435,12 +436,12 @@ public class Controller {
     }
 
     public boolean valueFunction(int diff){
-        double possibility = sigmod(diff);
+        double possibility = sigmoid(diff);
         double possRandom = Math.random();
         return possibility > possRandom;
     }
 
-    public double sigmod(double z){
+    public double sigmoid(double z){
         return 1/(1+Math.exp(-2*z));
     }
 
