@@ -444,68 +444,6 @@ public class Controller {
         return 1/(1+Math.exp(-2*z));
     }
 
-    public void algoApproximateTest(int k) {
-        int costOld = Util.calculateCost(pirates);
-        for (int i = 0; i < k; i++) {
-            ArrayList<Pirate> origin = new ArrayList<>(pirates);
-            Pirate firstPirate = null;
-            Pirate secondPirate = null;
-            for (int j = 0; j < 2; j++) {
-                int firstNumber = Util.randomInt(numberPirates - 1, 0);
-                firstPirate = getPirate(Util.intToChar(firstNumber));
-                secondPirate = firstPirate.getPirateDislike().get(Util.randomInt(firstPirate.getNumberDislike() - 1, 0));
-                exchangeLootWithPirateName(firstPirate.getName(), secondPirate.getName());
-                System.out.println("try to exchange " + firstPirate.getName() + " and " + secondPirate.getName());
-            }
-
-            // roll back
-            if (Util.calculateCost(pirates) > costOld) {
-                System.out.println("roll back");
-                pirates = new ArrayList<>(origin);
-            }
-        }
-    }
-
-    public void violentAlgo(ArrayList<Pirate> pirates){
-
-    }
-
-    public void randomAlgo2(ArrayList<Pirate> pirates, int minCost) {
-        System.out.println("Trying to find the solution with cost " + minCost + ", please wait...");
-        int count = 0;
-        int countLimit = 10000000;
-        while(Util.calculateCost(pirates) != minCost){
-            if(count>countLimit){
-                break;
-            }
-
-            Pirate p1 = null;
-            for(Pirate pirate : pirates){
-                if(pirate.getJealous() != null){
-                    p1 = pirate;
-                }
-            }
-            if(p1 == null){
-                System.out.println("Success to find the solution with count : " + count);
-                break;
-            }
-            Pirate p2 = p1.getPirateDislike().get(Util.randomInt(p1.getNumberDislike() - 1, 0));
-
-            Loot l1 = p1.getObjectObtained();
-            Loot l2 = p2.getObjectObtained();
-
-            p1.setObjectObtained(l2);
-            p2.setObjectObtained(l1);
-            count++;
-        }
-        if(count>countLimit){
-            System.out.println("It's impossible to find the solution with cost " + minCost);
-            randomAlgo(pirates, minCost+1);
-        } else {
-            System.out.println("Success to find the solution with count : " + count);
-        }
-    }
-
     public void randomAlgo(ArrayList<Pirate> pirates, int minCost) {
         System.out.println("Trying to find the solution with cost " + minCost + ", please wait...");
         int count = 0;
@@ -533,126 +471,6 @@ public class Controller {
         }
     }
 
-    public void algoTest() {
-
-        ArrayList<Pirate> origin = new ArrayList<>(pirates);
-
-        int costOld = Util.calculateCost(origin);
-        char name1 = 0;
-        char name2 = 0;
-        for (int i = 0; i < 10; i++) {
-            if (Util.calculateCost(origin) == 0) {
-                break;
-            }
-            ArrayList<Pirate> listPirate = new ArrayList<>();
-            for (Pirate p : origin) {
-                if (p.getJealous() != null) {
-                    listPirate.add(p);
-                }
-            }
-            Pirate pirateRandom = listPirate.get(Util.randomInt(listPirate.size() - 1, 0));
-            name1 = pirateRandom.getName();
-            name2 = pirateRandom.getJealous().getName();
-            exchangeLootWithPirateName(name1, name2);
-        }
-
-        // applique
-        if (Util.calculateCost(origin) <= costOld) {
-            pirates = new ArrayList<>(origin);
-        }
-    }
-
-    /**
-     * Algorithm 2 : algo more optimal
-     * exchange loot random to optimiser the cost
-     */
-    public void algoOptimal() {
-        ArrayList<Pirate> newPirates = new ArrayList<>();
-        ArrayList<Pirate> toAddPirates = new ArrayList<>();
-        // optional
-        algoNaive();
-        for (Pirate pirate : pirates) {
-            if (pirate.getJealous() == null) {
-                newPirates.add(pirate);
-            } else {
-                toAddPirates.add(pirate);
-            }
-        }
-
-        while (toAddPirates.size() > 0) {
-            System.out.println("rdy to random, newPirates : " + newPirates);
-            randomAlgo(newPirates, 0);
-            if (addPirateToNewPirate(newPirates, toAddPirates.get(0))) {
-                toAddPirates.remove(0);
-            }
-//            printPirates();
-        }
-        System.out.println("Algo finished!");
-    }
-
-    public boolean addPirateToNewPirate(ArrayList<Pirate> newPirates, Pirate pirate) {
-        newPirates.add(pirate);
-        HashSet<Integer> lootSet = new HashSet<>();
-        for (int i = 1; i <= 10; i++) {
-            lootSet.add(i);
-        }
-        for (int i = 0; i < newPirates.size(); i++) {
-            lootSet.remove(newPirates.get(i).getLootObtained().getNumber());
-        }
-        // lootSet is set of left loot
-        for (int number : lootSet) {
-            pirate.setObjectObtained(listOfLoot.get(number - 1));
-            if (pirate.getJealous() == null) {
-                return true;
-            }
-        }
-        newPirates.remove(newPirates.size() - 1);
-        return false;
-    }
-
-    public boolean reduceLootPriority(ArrayList<Pirate> pirates, Pirate pirate) {
-        if (pirate == null) {
-            return false;
-        }
-        // if the pirate has the last priority loot
-        if (pirate.getPriority() == pirate.getPreferenceList().size() - 1) {
-            return false;
-        }
-        // get the new loot to be given
-        Loot loot = listOfLoot.get(pirate.getPriority() + 1);
-        if (!loot.isToken()) {
-            pirate.setObjectObtained(loot);
-            loot.setToken(true);
-            return true;
-        } else {
-            Pirate nextPirate = null;
-            for (Pirate p : this.pirates) {
-                if (p.getObjectObtained().getNumber() == loot.getNumber()) {
-                    nextPirate = p;
-                }
-            }
-            return reduceLootPriority(pirates, nextPirate);
-        }
-
-
-    }
-
-    public Pirate getPirateMostDislike(ArrayList<Pirate> listPirate) {
-        int numberDislikeMax = 0;
-        Pirate res = listPirate.get(0);
-        for (Pirate p : listPirate) {
-            if (p.getNumberDislike() > numberDislikeMax) {
-                numberDislikeMax = p.getNumberDislike();
-                res = p;
-            }
-        }
-        return res;
-    }
-
-    public void optimise() {
-
-    }
-
     /**
      * Distribution the loot
      */
@@ -668,28 +486,8 @@ public class Controller {
                 if (!listOfLoot.get(numberLoot - 1).isToken()) {
                     p.setObjectObtained(listOfLoot.get(numberLoot - 1));
                     listOfLoot.get(numberLoot - 1).setToken(true);
-//                    p.setPrePriority(listOfLoot.get(numberLoot -1));
                 }
                 index++;
-            }
-        }
-    }
-
-    public void algoNaive2() {
-        int numberLoot;
-        for (Pirate p : pirates) {
-            int index = p.getPreferenceList().size()-1;
-            // Check if the pirate have the loot
-            while (p.getObjectObtained() == null) {
-                numberLoot = p.getPreferenceList().get(index).getNumber();
-
-                // If loot "numberLoot" is available then we give it to this pirate
-                if (!listOfLoot.get(numberLoot - 1).isToken()) {
-                    p.setObjectObtained(listOfLoot.get(numberLoot - 1));
-                    listOfLoot.get(numberLoot - 1).setToken(true);
-//                    p.setPrePriority(listOfLoot.get(numberLoot -1));
-                }
-                index--;
             }
         }
     }
