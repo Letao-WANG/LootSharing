@@ -6,8 +6,14 @@ package model;
  * Items allocated by pirates
  */
 public class Loot {
-    private int number; // Number of the loot
-    private boolean token = false ; // If the loot is taken by a pirate or not
+    /**
+     * Number of the loot
+     */
+    private int number;
+    /**
+     * If the loot is taken by a pirate or not
+     */
+    private boolean token = false ;
 
     /**
      * Constructor that creates an object of the class Loot

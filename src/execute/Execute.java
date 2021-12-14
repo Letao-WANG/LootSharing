@@ -1,7 +1,7 @@
 package execute;
 
 import controller.Controller;
-import model.Util;
+import controller.ControllerAuto;
 
 /**
  * Classe d'exécution lorsqu'il n'y a pas d'interface graphique
@@ -10,8 +10,12 @@ import model.Util;
  */
 public class Execute {
     public static void main(String[] args) {
-        Controller controller = new Controller();
+        // Sujet Part I
+//        Controller controller = new Controller();
 //        controller.runWithUserInteraction();
+
+        // Sujet Part II
+        ControllerAuto controller = new ControllerAuto();
         controller.runWithAutomation();
     }
 }

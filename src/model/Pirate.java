@@ -8,11 +8,22 @@ import java.util.ArrayList;
  *
  */
 public class Pirate {
-    /** name of pirate */
+    /**
+     * name of pirate
+     */
     private char name; // Name of the pirate
-    private ArrayList<Pirate> pirateDislike; // List of the pirate's enemies
-    private ArrayList<Loot> preferenceList; // Pirate preferences list
-    private Loot lootObtained = null; // Loot given to the pirate
+    /**
+     * List of the pirate's enemies
+     */
+    private ArrayList<Pirate> pirateDislike; //
+    /**
+     * Pirate preferences list
+     */
+    private ArrayList<Loot> preferenceList; //
+    /**
+     * Loot given to the pirate
+     */
+    private Loot lootObtained = null;
     private int priority;
 
     public Pirate(){ }
