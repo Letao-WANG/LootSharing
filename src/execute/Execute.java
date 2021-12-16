@@ -27,6 +27,9 @@ public class Execute {
                 case 1 : controller.runWithUserInteraction();
                 break;
                 case 2 : cAuto.runWithAutomation();
+                break;
+                case 3 : System.out.println("EXIT PROGRAM .....");
+                break;
                 default: System.out.println("Choix incorrect");
             }
         }while(choix!=3);
