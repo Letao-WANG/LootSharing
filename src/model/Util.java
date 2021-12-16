@@ -175,12 +175,12 @@ public class Util {
      */
     private static String getIntRegex(int maxIntAllowed, boolean matchExactly) {
         String regex = (matchExactly) ? "^(" : "";
-        if (0 < maxIntAllowed && maxIntAllowed < 10) {
-            regex += "[1-" + maxIntAllowed + "]";
+        if (0 <= maxIntAllowed && maxIntAllowed < 10) {
+            regex += "[0-" + maxIntAllowed + "]";
         } else if (maxIntAllowed >= 10 && maxIntAllowed < 100) {
             int onesPlace = maxIntAllowed % 10;
             int tensPlace = maxIntAllowed / 10;
-            regex += "[1-9]|[1-" + tensPlace + "]" + "[0-" + onesPlace + "]";
+            regex += "[0-9]|[1-" + tensPlace + "]" + "[0-" + onesPlace + "]";
         }
         regex += (matchExactly) ? ")$" : "";
         return regex;

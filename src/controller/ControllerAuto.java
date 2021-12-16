@@ -340,9 +340,9 @@ public class ControllerAuto {
     private void exchangeLootInNumber() {
         System.out.println("Please fill in the numbers corresponding to the pirates for the loot exchange");
         System.out.println("The first number is : ");
-        int firstName = Util.getChoiceInt(numberPirates, scanner);
+        int firstName = Util.getChoiceInt(numberPirates-1, scanner);
         System.out.println("The second number is : ");
-        int secondName = Util.getChoiceInt(numberPirates, scanner, firstName);
+        int secondName = Util.getChoiceInt(numberPirates-1, scanner, firstName);
 
         // Exchange the loot
         exchangeLootWithPirateName(Util.intToChar(firstName), Util.intToChar(secondName));

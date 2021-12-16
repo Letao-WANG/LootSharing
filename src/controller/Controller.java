@@ -38,7 +38,7 @@ public class Controller {
     private char maxCharAllowed;
 
     /**
-     * @deprecated Constructor of part I, usually you do not need to execute it for part II.
+     * Constructor of part I, usually you do not need to execute it for part II.
      */
     public Controller(Scanner sc) {
         scanner = sc;
