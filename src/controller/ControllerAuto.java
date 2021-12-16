@@ -38,8 +38,8 @@ public class ControllerAuto {
     /**
      * Constructor of Scanner
      */
-    public ControllerAuto() {
-        scanner = new Scanner(System.in);
+    public ControllerAuto(Scanner sc) {
+        scanner = sc;
     }
 
     /**
@@ -103,7 +103,6 @@ public class ControllerAuto {
                 }
             }
             numberPirates = pirates.size();
-            sc.close();
         } catch (
                 FileNotFoundException e) {
             e.printStackTrace();
@@ -144,7 +143,6 @@ public class ControllerAuto {
                 }
             }
         } while (choice != 4);
-        scanner.close();
     }
 
     /**

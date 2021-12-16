@@ -196,6 +196,9 @@ public class Util {
      */
     private static String getInput(Pattern pattern, Scanner sc) {
         String inputText = sc.nextLine();
+        if(inputText.equals("")){
+            return getInput(pattern, sc);
+        }
         boolean match;
         match = pattern.matcher(inputText).find();
 

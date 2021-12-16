@@ -40,8 +40,8 @@ public class Controller {
     /**
      * @deprecated Constructor of part I, usually you do not need to execute it for part II.
      */
-    public Controller() {
-        scanner = new Scanner(System.in);
+    public Controller(Scanner sc) {
+        scanner = sc;
     }
 
     /**
@@ -202,7 +202,6 @@ public class Controller {
                 System.out.println("The pirate " + p.getName() + " has the loot : " + p.getObjectObtained() + "\n");
             }
         } while (option != 3);
-        scanner.close();
         System.out.println("END");
     }
 
