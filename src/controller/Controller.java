@@ -7,19 +7,39 @@ import model.Util;
 import java.util.*;
 
 /**
+ * Controller of part I
  * Responsible for storing and manipulating Pirates data, the program mainly runs in this Class
  */
 
 public class Controller {
+    /**
+     * Maximal number of pirate allowed
+     */
     private static final int MAXPIRATES = 26;
+    /**
+     * Scanner class for interaction with user
+     */
     private Scanner scanner;
-
+    /**
+     * List of Pirate, modified important data
+     */
     private ArrayList<Pirate> pirates;
+    /**
+     * List of Loot, modified important data
+     */
     private ArrayList<Loot> listOfLoot;
-
+    /**
+     * Number of Pirate
+     */
     private int numberPirates;
+    /**
+     * Maximal char of loot allowed
+     */
     private char maxCharAllowed;
 
+    /**
+     * @deprecated Constructor of part I, usually you do not need to execute it for part II.
+     */
     public Controller() {
         scanner = new Scanner(System.in);
     }

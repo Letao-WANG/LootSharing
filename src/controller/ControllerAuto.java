@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
+ * Controller of part II
  * Responsible for storing and manipulating Pirates data, the program mainly runs in this Class for PART II
  */
 
@@ -36,6 +37,7 @@ public class ControllerAuto {
     private int numberPirates;
 
     /**
+     * Controller of part II
      * Constructor of Scanner
      */
     public ControllerAuto() {
@@ -56,9 +58,10 @@ public class ControllerAuto {
 
     /**
      * Read data from file "info.data", convert and save to Java Class
+     * Initializer the data to java class, get the pirates without distributing loot
      */
     public void readData() {
-        File file = new File("src/data/info.data");
+        File file = new File("src/data/equipage1");
 //        File file = new File("src/data/equipage2");
         // initialisation
         pirates = new ArrayList<>();
@@ -112,6 +115,7 @@ public class ControllerAuto {
 
     /**
      * Enter the menu with user interaction
+     * For resolution automatic, there are 3 algo that could be test
      */
     public void menuResolution() {
         int choice;
@@ -145,6 +149,35 @@ public class ControllerAuto {
             }
         } while (choice != 4);
         scanner.close();
+    }
+
+    public void algoChoice(){
+        int choice;
+        do {
+            printPirates();
+            printCost();
+            // Menu
+            System.out.println("Which algo you prefer? ");
+            System.out.println("1) Algo optimal (default algo) ");
+            System.out.println("2) Algo of sujet (maybe cannot get the best solution) ");
+            System.out.println("3) Algo random (a little slowly) ");
+            System.out.println("4) back into last menu");
+            choice = Util.getChoiceInt(4, scanner);
+
+            switch (choice) {
+                case 1: {
+                    algoOptimal(0);
+                    break;
+                }
+                case 2: {
+                    algoApproximation(1000);
+                    break;
+                }
+                case 3: {
+                    randomAlgo(pirates, 0);
+                }
+            }
+        } while (choice != 4);
     }
 
     /**
@@ -202,6 +235,7 @@ public class ControllerAuto {
             if (valueFunction(diff)) {
                 exchangeLootWithPirateName(secondPirate.getName(), firstPirate.getName());
             }
+
             count++;
         }
         if(count == countLimit){
@@ -269,7 +303,7 @@ public class ControllerAuto {
     }
 
     /**
-     * Distribution the loot
+     * Distribute Loots to Pirates using algo naive
      */
     public void algoNaive() {
         int numberLoot;

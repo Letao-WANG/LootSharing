@@ -171,7 +171,7 @@ public class Util {
      * @see Util#getChoiceInt(int, Scanner)
      */
     private static String getIntRegex(int maxIntAllowed, boolean matchExactly) {
-        String regex = (matchExactly) ? "^" : "";
+        String regex = (matchExactly) ? "^(" : "";
         if (0 < maxIntAllowed && maxIntAllowed < 10) {
             regex += "[1-" + maxIntAllowed + "]";
         } else if (maxIntAllowed >= 10 && maxIntAllowed < 100) {
@@ -179,7 +179,7 @@ public class Util {
             int tensPlace = maxIntAllowed / 10;
             regex += "[1-9]|[1-" + tensPlace + "]" + "[0-" + onesPlace + "]";
         }
-        regex += (matchExactly) ? "$" : "";
+        regex += (matchExactly) ? ")$" : "";
         return regex;
     }
 
