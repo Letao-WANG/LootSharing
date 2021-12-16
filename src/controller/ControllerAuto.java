@@ -45,9 +45,9 @@ public class ControllerAuto {
     /**
      * Main method of sujet part II
      */
-    public void runWithAutomation() {
+    public void runWithAutomation(String fileName) {
         // initializer the data to java class, get the pirates without distributing loot
-        readData();
+        readData(fileName);
         // distribute loots to pirates
         algoNaive();
         // enter the menu
@@ -57,8 +57,8 @@ public class ControllerAuto {
     /**
      * Read data from file "info.data", convert and save to Java Class
      */
-    public void readData() {
-        File file = new File("src/data/equipage3");
+    public void readData(String fileName) {
+        File file = new File("src/data/" + fileName);
 //        File file = new File("src/data/equipage2");
         // initialisation
         pirates = new ArrayList<>();
@@ -90,7 +90,6 @@ public class ControllerAuto {
                         break;
                     }
                     case "preferences": {
-
                         Pirate pirateChosen = getPirate(Util.intToChar(listName.get(0)));
                         ArrayList<Loot> listPreferences = new ArrayList<>();
                         for (int i = 1; i < listName.size(); i++) {
@@ -115,8 +114,7 @@ public class ControllerAuto {
     public void menuResolution() {
         int choice;
         do {
-            printPirates();
-            printCost();
+
             // Menu
             System.out.println("Choose your next action: ");
             System.out.println("1) résolution automatique ;");
@@ -127,9 +125,7 @@ public class ControllerAuto {
 
             switch (choice) {
                 case 1: {
-                    algoOptimal(0);
-//                    algoApproximation(1000);
-//                    randomAlgo(pirates, 0);
+                    algoSelect();
                     break;
                 }
                 case 2: {
@@ -139,6 +135,39 @@ public class ControllerAuto {
                 }
                 case 3: {
                     saveData();
+                    break;
+                }
+            }
+            printPirates();
+            printCost();
+        } while (choice != 4);
+    }
+
+    public void algoSelect() {
+        int choice;
+        do {
+            // Menu
+            System.out.println("   Choose an algorithm [1-3] you prefer, or enter 4 to return: ");
+            System.out.println("1) algoOptimal (fast and precise, best one)");
+            System.out.println("2) algoApproximation (fast but not precise, algo of sujet)");
+            System.out.println("3) randomAlgo (slowly but precise)");
+            System.out.println("4) back to the previous menu and display the information");
+            choice = Util.getChoiceInt(4, scanner);
+
+            switch (choice) {
+                case 1: {
+                    algoOptimal(0);
+                    printCost();
+                    break;
+                }
+                case 2: {
+                    algoApproximation(1000);
+                    printCost();
+                    break;
+                }
+                case 3: {
+                    randomAlgo(pirates, 0);
+                    printCost();
                     break;
                 }
             }
@@ -297,19 +326,10 @@ public class ControllerAuto {
     }
 
     /**
-     * Display the information of loots
-     */
-    public void printLoots() {
-        for (Pirate p : pirates) {
-            System.out.println("The pirate " + p.getName() + " has the loot : " + p.getObjectObtained() + "\n");
-        }
-    }
-
-    /**
      * Display the information of cost
      */
     public void printCost() {
-        System.out.println("The number of jealous pirates is : " + Util.calculateCost(pirates) + "\n");
+        System.out.println("The number of jealous pirates (cost) is : " + Util.calculateCost(pirates) + "\n");
     }
 
     /**

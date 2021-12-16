@@ -1,8 +1,5 @@
 package model;
 
-import controller.Controller;
-import controller.ControllerAuto;
-
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;

@@ -7,6 +7,12 @@ import model.Util;
 import java.util.Scanner;
 
 public class ExecuteSelect {
+
+    /**
+     * The name of data file
+     */
+    private static final String data = "equipage2";
+
     /**
      * Execute the program with a menu that allows the user to choice between the project PART I or PART II
      */
@@ -26,7 +32,7 @@ public class ExecuteSelect {
                     controller.runWithUserInteraction();
                     break;
                 case 2:
-                    cAuto.runWithAutomation();
+                    cAuto.runWithAutomation(data);
                     break;
                 case 3:
                     System.out.println("EXIT PROGRAM .....");
