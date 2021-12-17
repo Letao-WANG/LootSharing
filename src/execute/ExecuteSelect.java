@@ -6,12 +6,16 @@ import model.Util;
 
 import java.util.Scanner;
 
+/**
+ * Class to execute the menu of selecting part I or II
+ * But it is not main class, only provide static method execute()
+ */
 public class ExecuteSelect {
 
     /**
      * The name of data file
      */
-    private static final String data = "equipage2";
+    private static final String data = "equipage1";
 
     /**
      * Execute the program with a menu that allows the user to choice between the project PART I or PART II

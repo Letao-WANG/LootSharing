@@ -59,7 +59,6 @@ public class ControllerAuto {
      */
     public void readData(String fileName) {
         File file = new File("src/data/" + fileName);
-//        File file = new File("src/data/equipage2");
         // initialisation
         pirates = new ArrayList<>();
         listOfLoot = new ArrayList<>();
@@ -110,11 +109,11 @@ public class ControllerAuto {
 
     /**
      * Enter the menu with user interaction
+     * After the "resolution automatique" or "manuelle", display the information of pirate
      */
     public void menuResolution() {
         int choice;
         do {
-
             // Menu
             System.out.println("Choose your next action: ");
             System.out.println("1) résolution automatique ;");
@@ -143,6 +142,9 @@ public class ControllerAuto {
         } while (choice != 4);
     }
 
+    /**
+     * Menu interaction for selecting the algorithm
+     */
     public void algoSelect() {
         int choice;
         do {
