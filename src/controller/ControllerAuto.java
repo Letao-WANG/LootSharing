@@ -159,6 +159,7 @@ public class ControllerAuto {
             switch (choice) {
                 case 1: {
                     algoOptimal(0);
+                    System.out.println("Algorithm optimal has done.");
                     printCost();
                     break;
                 }
@@ -169,6 +170,7 @@ public class ControllerAuto {
                 }
                 case 3: {
                     randomAlgo(pirates, 0);
+                    System.out.println("Algorithm random has done.");
                     printCost();
                     break;
                 }
@@ -197,6 +199,7 @@ public class ControllerAuto {
                 exchangeLootWithPirateName(secondPirate.getName(), firstPirate.getName());
             }
         }
+        System.out.println("Algorithm approximate has done.");
     }
 
     /**
